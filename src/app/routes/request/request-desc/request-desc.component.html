@@ -1,0 +1,113 @@
+<form [formGroup]="reqdescForm">
+<div class="row py-5">
+  <div class="col-sm-4">
+    <div class="card" [ngClass]="{'border-danger': submitted && f.requestype.errors}">
+      <div class="card-header text-center">Tipo de solicitud</div>
+      <div class="card-body">
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="requestype" id="requestype1" value="1">
+          <label class="custom-control-label" for="requestype1">Nuevo Proyecto</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="requestype" id="requestype2" value="2">
+          <label class="custom-control-label" for="requestype2">Mantenimiento de proyecto</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="requestype" id="requestype3" value="3">
+          <label class="custom-control-label" for="requestype3">Certificación de proyecto</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" [ngClass]="{'border-danger': submitted && f.priority.errors}">
+      <div class="card-header text-center">Prioridad</div>
+      <div class="card-body">
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="priority" id="priority1" value="1">
+          <label class="custom-control-label" for="priority1">Alta</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="priority" id="priority2" value="2">
+          <label class="custom-control-label" for="priority2">Media</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="priority" id="priority3" value="3">
+          <label class="custom-control-label" for="priority3">Baja</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" [ngClass]="{'border-danger': submitted && f.complex.errors}">
+      <div class="card-header text-center">Complejidad</div>
+      <div class="card-body">
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="complex" id="complex1" value="1">
+          <label class="custom-control-label" for="complex1">Alta</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="complex" id="complex2" value="2">
+          <label class="custom-control-label" for="complex2">Media</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="complex" id="complex3" value="3">
+          <label class="custom-control-label" for="complex3">Baja</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row ">
+  <div class="col-sm-4">
+    <div class="card" [ngClass]="{'border-danger': submitted && f.business.errors}">
+      <div class="card-header text-center">Etapa de afectación en el negocio</div>
+      <div class="card-body">
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="business" id="business1" value="1">
+          <label class="custom-control-label" for="business1">Macro proceso</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="business" id="business2" value="2">
+          <label class="custom-control-label" for="business2">Proceso</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input class="custom-control-input" type="radio" formControlName="business" id="business3" value="3">
+          <label class="custom-control-label" for="business3">Actividad</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+    <div class="card" [ngClass]="{'border-danger': submitted && f.entregable.errors}">
+      <div class="card-header text-center">Entregables</div>
+      <div class="card-body">
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" formControlName="entregable" id="entregable1" value="1">
+          <label class="custom-control-label" for="entregable1">Modelado BPMN</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" formControlName="entregable" id="entregable2" value="2">
+          <label class="custom-control-label" for="entregable2">Red de procesos</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+          <input class="custom-control-input" type="checkbox" formControlName="entregable" id="entregable3" value="3">
+          <label class="custom-control-label" for="entregable3">Ficha técnica</label>
+        </div>
+        <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" formControlName="entregable" id="entregable4" value="4">
+            <label class="custom-control-label" for="entregable4">Especificación de procesos</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-4">
+      <div class="card">
+        <div class="card-header text-center">Departamentos involucrados</div>
+        <div class="card-body">
+            <tag-input theme='bootstrap' formControlName="deptos" name="deptos" ></tag-input>
+        </div>
+      </div>
+    </div>
+</div>
+</form>
