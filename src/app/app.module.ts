@@ -21,6 +21,7 @@ import { RequestComponent } from './routes/request/request.component';
 import { TracingComponent } from './routes/tracing/tracing.component';
 import { RegisterComponent } from './routes/pages/register/register.component';
 import { FooterComponent } from './layout/footer/footer.component';
+import { EstatusComponent } from './routes/estatus/estatus.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { FooterComponent } from './layout/footer/footer.component';
     RequestComponent,
     TracingComponent,
     RegisterComponent,
-    FooterComponent
+    FooterComponent,
+    EstatusComponent
   ],
   imports: [
     BrowserModule,

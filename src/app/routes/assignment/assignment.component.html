@@ -9,18 +9,19 @@
             </div>
         </div>
         <ngx-datatable #table class='bootstrap no-detail-row' [rows]="rowsFilter" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
-            <ngx-datatable-column prop="id" name="Folio"></ngx-datatable-column>
-            <ngx-datatable-column prop="proyect" name="Proyecto"></ngx-datatable-column>
-            <ngx-datatable-column prop="product" name="Producto"></ngx-datatable-column>
-            <ngx-datatable-column prop="applicant" name="Solicitante"></ngx-datatable-column>
+            <ngx-datatable-column prop="firequestid" name="Folio"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcproyectname" name="Proyecto"></ngx-datatable-column>
+            <ngx-datatable-column prop="fccompany" name="Producto"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
             <ngx-datatable-column name="Ing. Negocio" [width] ="300" >
                 <ng-template ngx-datatable-cell-template >
-                    <select name="ingenieroNegocio">
-                        <option value="">Seleccione al Ingeniero de Negocio</option>
-                        <option value="alison">Alison Guadalupe Gonzalez Esquivel</option>
-                        <option value="jocsan">Jocsan Esaú Benito Luna</option>
-                        <option value="miguel">Miguel Angel Jimenez Huerta</option>
-                        <option value="nayeli">Nayeli Jannethe Hernandez Ramirez</option>
+                    <select name="ingenieroNegocio" >
+                        <option value="ingenieroNegocio">Seleccione al Ingeniero de Negocio</option>
+                        
+                        <option *ngFor="let row of rowsFilter2" 
+                            [value]="row.fiuserid"  >
+                        {{row.fcname}}  {{row.fclastname1}} {{row.fclastname2}} 
+                        </option>
                      </select>
                 </ng-template>                
             </ngx-datatable-column>
@@ -28,19 +29,18 @@
                 <ng-template ngx-datatable-cell-template >
                     <select name="ingenieroNegocio">
                         <option value="">Seleccione al Ingeniero Certificador</option>
-                        <option value="alison">Alison Guadalupe Gonzalez Esquivel</option>
-                        <option value="jocsan">Jocsan Esaú Benito Luna</option>
-                        <option value="miguel">Miguel Angel Jimenez Huerta</option>
-                        <option value="nayeli">Nayeli Jannethe Hernandez Ramirez</option>
+                        <option *ngFor="let row3 of rowsFilter3" 
+                            [value]="row3.fiuserid"  >
+                        {{row3.fcname}}  {{row3.fclastname1}} {{row3.fclastname2}} 
+                        </option>
                      </select>
                 </ng-template>                
             </ngx-datatable-column>
-            <ngx-datatable-column prop="progress" name="Avance">
+            <ngx-datatable-column prop="fiadvancehour" name="Avance %"></ngx-datatable-column>
+            <ngx-datatable-column prop="action" name="Acciones" [width] ="210">
                 <ng-template ngx-datatable-cell-template let-value="value">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                    </div>
-                </ng-template>
+                    <button type="submit" class="btn btn-primary btn-sm">Asignar</button>
+                </ng-template>                
             </ngx-datatable-column>
         </ngx-datatable>
     </div>

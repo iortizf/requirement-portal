@@ -14,7 +14,7 @@ const httpOptions = {
 })
 export class LoginService {
 
-  private loginUrl= 'http://10.51.145.32:8080/request/';
+  private loginUrl= 'http://localhost:8080/request/';
   
   constructor(private http: HttpClient) { }
   
@@ -24,7 +24,7 @@ export class LoginService {
     .get<Response>(this.loginUrl+"getUserLogin?userId="+employId+"&pass="+pwd, httpOptions)
     .pipe(
         tap((resp:Response) =>{
-          console.log(resp);
+     //     console.log(resp);
           if(resp.statusCode == 200){//Good login
             localStorage.setItem('currentUser', JSON.stringify(resp.body[0]));
           }else{
