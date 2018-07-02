@@ -1,0 +1,55 @@
+<div  class="backgroud-img-login">
+<div class="container">
+
+    <div class="row ">
+        <div class="Absolute-Center is-Responsive">
+    <div class="card" style="width: 28rem;">
+
+        <div class="card-header text-center dark-text">
+            <h3>Login</h3>
+          </div>
+       <!-- Card body -->
+      <div class="card-body">
+
+      <!-- Material form register -->
+      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
+        <!-- Material input email -->
+        <div class="md-form">
+          <i class="fa fa-user prefix grey-text"></i>          
+          <input mdbInputDirective type="text" id="employId" class="form-control" data-error="El id es obligatorio" data-success=" " formControlName="employId" #loginInput>
+          <label for="employId" class="font-weight-light">No de empleado</label>
+        </div>
+        <!-- Material input password -->
+        <div class="md-form">
+          <i class="fa fa-lock prefix grey-text"></i>
+          <input mdbInputDirective type="password" id="pwd" class="form-control" data-error="Captura contraseña" data-success=" " formControlName="pwd">        
+          <label for="pwd" class="font-weight-light">Contraseña</label>
+        </div>
+
+        <div *ngIf="loginForm.valid && loginError" class="alert alert-warning" role="alert">
+            *Usuario/Contraseña no existe!
+        </div>
+  
+        <div class="text-center py-4 mt-3">
+          <button class="btn btn-cyan waves-light" type="submit" mdbWavesEffect>Acceder</button>
+        </div>
+      </form>
+  
+    </div>
+      <!--Footer-->
+      <div class="card-footer text-right" >
+        <div class="options">
+          <p>Registrate con nosotros
+            <a [routerLink]="['/register']" >aquí</a>
+          </p>
+          <p>¿Olvidaster tu contraseña?
+            <a href="#"> entra aquí?</a>
+          </p>
+        </div>
+      </div>
+
+    </div>
+    </div>
+    </div>
+</div>
+</div>
