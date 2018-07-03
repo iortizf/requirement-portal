@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from '../../services/request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Tab } from '../../shared/request.model';
+import { Tab, NewRequest } from '../../shared/request.model';
 
 @Component({
   selector: 'app-request',
@@ -29,6 +29,13 @@ export class RequestComponent implements OnInit {
       noEmploy: [null, Validators.required],
       name: [null, Validators.required],
       apellidos: [null, Validators.required],
+      position: [null, Validators.required],
+      boss: [null, Validators.required],
+      depto: [null, Validators.required],
+      direction: [null, Validators.required],
+      email: [null, Validators.compose([Validators.required, Validators.email])],
+      phone1: [null, Validators.required],
+      phone2: [null, Validators.required]
     });
 
     this.tabs[1].form = fb.group({
@@ -37,6 +44,9 @@ export class RequestComponent implements OnInit {
       company: [null, Validators.required],
       category: [null, Validators.required],
       description: [null, Validators.required],
+      system: [null, Validators.required],
+      productOwner: [null, Validators.required],
+      businessOwner: [null, Validators.required],
     });
 
     this.tabs[2].form = fb.group({
@@ -75,6 +85,12 @@ export class RequestComponent implements OnInit {
     }
   }
 
+  goTo(index:number){
+    console.log("goTo Cliked!!");
+    let tabClicked= this.tabs[index];
+    this.requestService.currentForm = tabClicked.form;
+  }
+
   next() {
 
     this.currentTab = this.route.snapshot.firstChild.url[0].path;
@@ -93,8 +109,60 @@ export class RequestComponent implements OnInit {
       this.requestService.currentForm = nextTab.form;
       this.router.navigate([nextTab.name], { relativeTo: this.route });
       this.currentTab = nextTab.name;
+    }else if(this.requestService.currentForm.valid){
+      //Finishing
+      //Validate forms
+      let invalidForm = this.tabs.find( tab => tab.form.invalid === true);
+      if(invalidForm){//Someone form is invalid
+        console.log("Favor de capturar los datos obligatorios del apartado "+ invalidForm.name);
+        this.router.navigate([invalidForm.name], { relativeTo: this.route });
+      }else{
+        let applicant = this.tabs[0].form.value;//Applicant Page
+        let requestInfo = this.tabs[1].form.value;// Request Information Page
+        let requestDesc = this.tabs[2].form.value;// Request Description Page
+        let proyectDesc = this.tabs[3].form.value;// Proyect Description Page
+
+        let user = JSON.parse(localStorage.getItem("currentUser"));
+
+        let newReq = new NewRequest();
+
+        newReq.fiuserid = user.fiuserid;
+        newReq.ficomplexityid =  requestDesc.complex;
+        newReq.fiproductid = requestInfo.product;
+        newReq.firequesttypeid = requestDesc.requestype;
+        newReq.filevelmergetypeid = requestDesc.business;
+        newReq.fcproyectname = requestInfo.pname;
+        newReq.fipriorityid = requestDesc.priority;       
+        newReq.fccompany = requestInfo.company;        
+        newReq.fccategory = requestInfo.category;
+        newReq.fcproyectdefinition = proyectDesc.description;
+        newReq.fcstageofafectation= requestDesc.business;
+        newReq.fcddepartmentsinvolved = this.getDeptosString(requestDesc.deptos);
+        newReq.fcproyectdescription = proyectDesc.description;
+        newReq.fcproductowner = requestInfo.productOwner;
+        newReq.fcsystemcharge = requestInfo.system;
+        newReq.fcbusinessowner= requestInfo.businessOwner;
+
+        this.requestService.newRequest(newReq).subscribe(
+          resp =>{
+            console.log("Solicitud ok");
+          },
+          error =>{
+            console.error("Error al guardar la solicitud!");
+          });
+
+
+      }
     }
     console.log("Current data", this.tabs);
+  }
+
+  getDeptosString(deptos){
+    let deptostrn:string;
+    deptos.forEach(element => {
+      deptostrn += element.value+" ";
+    });
+    return deptostrn;
   }
 
 }

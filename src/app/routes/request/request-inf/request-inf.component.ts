@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { RequestService } from '../../../services/request.service';
 import { Subscription } from 'rxjs';
+import { ProductService } from '../../../services/product.service';
+import { Product } from '../../../shared/catalog.model';
 
 @Component({
   selector: 'app-request-inf',
@@ -12,8 +14,9 @@ export class RequestInfComponent implements OnInit {
   submitted: boolean = false;
   subscription: Subscription;
   requestForm: FormGroup;
+  products = new Array<Product>();
 
-  constructor(private requestService: RequestService) {
+  constructor(private requestService: RequestService, private productService:ProductService) {
 
     this.requestForm = this.requestService.currentForm;
 
@@ -27,6 +30,9 @@ export class RequestInfComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.productService.getProducts().subscribe(resp =>{
+      this.products = resp;
+    });
   }
 
   ngOnDestroy() {

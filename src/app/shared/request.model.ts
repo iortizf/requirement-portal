@@ -1,19 +1,23 @@
 import { FormGroup } from "@angular/forms";
 
-export class Applicant{
-    numEmploy:string;
-    name:string;
-    apellidos:string;
-    submited:boolean
-}
-
-export class RequestInfo{
-    proyect:string;
-    product:number;
-    company:string;
-    category:string;
-    decription:string;
-    submited:boolean
+export class NewRequest{
+    fiuserid:number;
+    ficomplexityid:number;
+    fiproductid:number;
+    fipriorityid:number;
+    filevelmergetypeid:number;
+    firequesttypeid:number;
+    fcproyectname:string;
+    fccompany:string;
+    fccategory:string;
+    fcproyectdefinition:string;
+    fcstageofafectation:string;
+    fcddepartmentsinvolved:string;
+    fcproyectdescription:string;
+    fcproductowner:string;
+    fcsystemcharge:string;
+    fcbusinessowner:string;
+    fcbusisnessengineer:string;
 }
 
 export class Tab{
