@@ -19,4 +19,25 @@
     <button type="button" class="btn btn-primary btn-sm pull-right" (click)="next()" >{{currentTab == 'proyect-desc'?'Terminar':'Siguiente'}}</button>
   </div>
 </div>
-<!--/.Panel-->
+
+<div mdbModal #modal="mdb-modal" class="modal fade" id="modalinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-info" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="heading lead">Envío de solicitud</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.hide()">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <h3>¿Esta seguro que desea enviar la solicitud?</h3>
+                </div>
+            </div>
+            <div class="modal-footer">                
+                <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal" (click)="modal.hide()"  mdbWavesEffect>Cerrar</button>
+                <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="send()">Enviar</button>
+            </div>
+        </div>
+    </div>
+</div>

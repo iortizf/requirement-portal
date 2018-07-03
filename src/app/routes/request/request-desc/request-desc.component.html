@@ -70,7 +70,7 @@
       </div>
     </div>
     <div class="col-sm-4">
-      <div class="card">
+      <div class="card" [ngClass]="{'border-danger': submitted && f.deptos.errors}">
         <div class="card-header text-center">Departamentos involucrados</div>
         <div class="card-body">
           <tag-input theme='bootstrap' formControlName="deptos" name="deptos"></tag-input>

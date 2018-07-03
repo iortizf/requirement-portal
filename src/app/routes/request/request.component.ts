@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from '../../services/request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -13,6 +13,8 @@ export class RequestComponent implements OnInit {
 
   currentTab: string;
 
+  @ViewChild('modal') public modal;
+
   tabs: Tab[] = [
     new Tab("applicant-inf", 0),
     new Tab("request-inf", 1),
@@ -23,7 +25,7 @@ export class RequestComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     public router: Router, private fb: FormBuilder,
-    private requestService: RequestService) {    
+    private requestService: RequestService) {
 
     this.tabs[0].form = this.requestService.currentForm = fb.group({
       noEmploy: [null, Validators.required],
@@ -55,7 +57,7 @@ export class RequestComponent implements OnInit {
       complex: [null, Validators.required],
       business: [null, Validators.required],
       entregable: [null, Validators.required],
-      deptos : []
+      deptos: [null, Validators.required]
     });
 
     this.tabs[3].form = fb.group({
@@ -65,12 +67,55 @@ export class RequestComponent implements OnInit {
 
     this.currentTab = "applicant-inf";
     this.router.navigate(["/request"]);
-      
+
   }
 
 
   ngOnInit() {
 
+  }
+
+  goTo(index: number) {
+
+    console.log("goTo Cliked!!");
+    let tabClicked = this.tabs[index];
+    this.requestService.currentForm = tabClicked.form;
+  }
+
+  send() {    
+
+    let requestInfo = this.tabs[1].form.value;// Request Information Page
+    let requestDesc = this.tabs[2].form.value;// Request Description Page
+    let proyectDesc = this.tabs[3].form.value;// Proyect Description Page
+
+    let user = JSON.parse(localStorage.getItem("currentUser"));
+
+    let newReq = new NewRequest();
+
+    newReq.fiuserid = user.fiuserid;
+    newReq.ficomplexityid = requestDesc.complex;
+    newReq.fiproductid = requestInfo.product;
+    newReq.firequesttypeid = requestDesc.requestype;
+    newReq.filevelmergetypeid = requestDesc.business;
+    newReq.fcproyectname = requestInfo.pname;
+    newReq.fipriorityid = requestDesc.priority;
+    newReq.fccompany = requestInfo.company;
+    newReq.fccategory = requestInfo.category;
+    newReq.fcproyectdefinition = proyectDesc.description;
+    newReq.fcstageofafectation = requestDesc.business;
+    newReq.fcddepartmentsinvolved = this.getDeptosString(requestDesc.deptos);
+    newReq.fcproyectdescription = proyectDesc.description;
+    newReq.fcproductowner = requestInfo.productOwner;
+    newReq.fcsystemcharge = requestInfo.system;
+    newReq.fcbusinessowner = requestInfo.businessOwner;
+
+    this.requestService.newRequest(newReq).subscribe(
+      resp => {
+        this.router.navigate(["/"]);
+      },
+      error => {
+        console.error("Error al guardar la solicitud!");
+      });
   }
 
   back() {
@@ -83,12 +128,6 @@ export class RequestComponent implements OnInit {
       this.router.navigate([backTo.name], { relativeTo: this.route });
       this.currentTab = backTo.name;
     }
-  }
-
-  goTo(index:number){
-    console.log("goTo Cliked!!");
-    let tabClicked= this.tabs[index];
-    this.requestService.currentForm = tabClicked.form;
   }
 
   next() {
@@ -109,58 +148,23 @@ export class RequestComponent implements OnInit {
       this.requestService.currentForm = nextTab.form;
       this.router.navigate([nextTab.name], { relativeTo: this.route });
       this.currentTab = nextTab.name;
-    }else if(this.requestService.currentForm.valid){
+    } else if (this.requestService.currentForm.valid) {
       //Finishing
       //Validate forms
-      let invalidForm = this.tabs.find( tab => tab.form.invalid === true);
-      if(invalidForm){//Someone form is invalid
-        console.log("Favor de capturar los datos obligatorios del apartado "+ invalidForm.name);
+      let invalidForm = this.tabs.find(tab => tab.form.invalid === true);
+      if (invalidForm) {//Someone form is invalid
+        console.log("Favor de capturar los datos obligatorios del apartado " + invalidForm.name);
         this.router.navigate([invalidForm.name], { relativeTo: this.route });
-      }else{
-        let applicant = this.tabs[0].form.value;//Applicant Page
-        let requestInfo = this.tabs[1].form.value;// Request Information Page
-        let requestDesc = this.tabs[2].form.value;// Request Description Page
-        let proyectDesc = this.tabs[3].form.value;// Proyect Description Page
-
-        let user = JSON.parse(localStorage.getItem("currentUser"));
-
-        let newReq = new NewRequest();
-
-        newReq.fiuserid = user.fiuserid;
-        newReq.ficomplexityid =  requestDesc.complex;
-        newReq.fiproductid = requestInfo.product;
-        newReq.firequesttypeid = requestDesc.requestype;
-        newReq.filevelmergetypeid = requestDesc.business;
-        newReq.fcproyectname = requestInfo.pname;
-        newReq.fipriorityid = requestDesc.priority;       
-        newReq.fccompany = requestInfo.company;        
-        newReq.fccategory = requestInfo.category;
-        newReq.fcproyectdefinition = proyectDesc.description;
-        newReq.fcstageofafectation= requestDesc.business;
-        newReq.fcddepartmentsinvolved = this.getDeptosString(requestDesc.deptos);
-        newReq.fcproyectdescription = proyectDesc.description;
-        newReq.fcproductowner = requestInfo.productOwner;
-        newReq.fcsystemcharge = requestInfo.system;
-        newReq.fcbusinessowner= requestInfo.businessOwner;
-
-        this.requestService.newRequest(newReq).subscribe(
-          resp =>{
-            console.log("Solicitud ok");
-          },
-          error =>{
-            console.error("Error al guardar la solicitud!");
-          });
-
-
+      } else {
+        this.modal.show();
       }
     }
-    console.log("Current data", this.tabs);
   }
 
-  getDeptosString(deptos){
-    let deptostrn:string;
+  getDeptosString(deptos) {
+    let deptostrn: string;
     deptos.forEach(element => {
-      deptostrn += element.value+" ";
+      deptostrn += element.value + " ";
     });
     return deptostrn;
   }
