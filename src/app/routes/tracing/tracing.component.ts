@@ -1,5 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { TracingService } from '../../services/tracing.service';
+import { Tracing } from '../../shared/tracing.model';
 
 @Component({
   selector: 'app-tracing',
@@ -8,23 +10,24 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
   encapsulation: ViewEncapsulation.None
 })
 export class TracingComponent implements OnInit {
-  rowsFilter = [
-    { ing: 'Alison Guadalupe Gonzales Esquivel', fAtentions:'6', ftotal: '6', disp: '9', strategy:'2', cancel:'0', postponed:'0', finished:'0' },
-    { ing: 'Graciela Ibeth Ramirez Tellez', fAtentions:'6', ftotal: '6', disp: '9', strategy:'2', cancel:'0', postponed:'0', finished:'0' },
-    { ing: 'Graciela Ibeth Ramirez Tellez', fAtentions:'6', ftotal: '6', disp: '9', strategy:'2', cancel:'0', postponed:'0', finished:'0' },
-    { ing: 'Jocsan Esau Benito Luna', fAtentions:'6', ftotal: '6', disp: '9', strategy:'2', cancel:'0', postponed:'0', finished:'0' },
-    { ing: 'Miguel Angel Jimenez Huerta', fAtentions:'6', ftotal: '6', disp: '9', strategy:'2', cancel:'0', postponed:'0', finished:'0' }
-  ];
-
+  rowsFilter = [];
   temp = [];
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
-  constructor() { 
+  constructor(private tracingService:TracingService) { 
     this.temp = this.rowsFilter;
   }
 
   ngOnInit() {
+    this.tracingService.obtenerDatosSeguimiento().subscribe(resp =>
+    {
+      this.rowsFilter = resp.body;
+      this.temp = this.rowsFilter;
+    },
+    error=>{
+      console.error(error);
+    });
   }
 
   updateFilter(event) {
@@ -32,7 +35,7 @@ export class TracingComponent implements OnInit {
 
     // filter our data
     const temp = this.temp.filter(function(d) {
-        return d.ing.toLowerCase().indexOf(val) !== -1 || !val;
+        return d.fcname.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
