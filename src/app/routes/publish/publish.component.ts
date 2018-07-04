@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { PublishService } from '../../services/publish.service';
+import { Publish } from '../../shared/publish.model'
 
 @Component({
   selector: 'app-publish',
@@ -10,13 +11,7 @@ import { PublishService } from '../../services/publish.service';
 })
 export class PublishComponent implements OnInit {
 
-  rowsFilter = [
-    { id: 'INF001', proyect: 'Migración core bancario', description: 'Migración del core bancario de Banco Azteca', status:'Certificación' , accion:'Listo' },
-    { id: 'INF002', proyect: 'Gobierno de Microservicios', description: 'Desarrollo de microservicios de Banco Azteca', status:'Certificación', accion:'Listo'},
-    { id: 'INF003', proyect: 'Migración de CLICEL', description: 'Migración de CLICEL a TIBCO', status:'Certificación', accion:'Listo'},
-    { id: 'INF004', proyect: 'Migración SPEI', description: 'Migración SPEI de servidores', status:'Certificación', accion:'Listo'},
-    { id: 'INF005', proyect: 'BATCH captación', description: 'Mapeo de BATCH captación', status:'Certificación', accion:'Listo'}
-  ];
+  rowsFilter = [];
 
   temp = [];
 
@@ -31,7 +26,7 @@ export class PublishComponent implements OnInit {
     this.publishService.obtenerDatos(1, user.fiuserid).subscribe(
       resp =>{
         console.log("Publish Data", resp);
-        
+        this.rowsFilter = JSON.parse(JSON.stringify(resp));
       },
       error=>{
         console.error(error);
@@ -44,7 +39,7 @@ export class PublishComponent implements OnInit {
 
     // filter our data
     const temp = this.temp.filter(function(d) {
-        return d.proyect.toLowerCase().indexOf(val) !== -1 || !val;
+        return d.fcproyectname.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
     // update the rows
