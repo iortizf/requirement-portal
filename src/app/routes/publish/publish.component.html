@@ -13,9 +13,9 @@
             <ngx-datatable-column prop="proyect" name="Nombre del proyecto"></ngx-datatable-column>
             <ngx-datatable-column prop="description" name="Descripción"></ngx-datatable-column>
             <ngx-datatable-column prop="status" name="Estatus"></ngx-datatable-column>
-            <ngx-datatable-column prop="action" name="Acciones">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <button type="button" class="btn btn-primary btn-sm">publicar</button>
+            <ngx-datatable-column prop="accion" name="Acciones">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <a type="button" class="btn btn-primary btn-sm">{{row['id']}} </button>
                 </ng-template>                
             </ngx-datatable-column>
         </ngx-datatable>
