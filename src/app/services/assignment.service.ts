@@ -62,7 +62,6 @@ export class AssignmentService {
             Observable.throw("Error al crear la assignment");
             
             } 
-  
           }),
           catchError( error => Observable.throw(error)
         )

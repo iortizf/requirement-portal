@@ -18,7 +18,6 @@ export class EstatusService {
   constructor(private http: HttpClient) { }
 
 
-
   
     getRequestForStatus(): Observable<Response>{
     //  console.log("Invocando servicio de getRequestForStatus url="+this.assignmentUrl+"getRequestForStatus");

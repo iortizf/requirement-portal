@@ -35,7 +35,6 @@ export class EstatusComponent implements OnInit {
     this.temp = this.rowsFilter;
     this.temp2 = this.rowsFilter2;
 
-    
   }
 
   ngOnInit() {
