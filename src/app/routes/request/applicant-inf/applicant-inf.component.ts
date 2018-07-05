@@ -24,11 +24,35 @@ export class ApplicantInfComponent implements OnInit, OnDestroy {
         this.requestService.currentForm = this.applicanForm;
       }
     });
+    /*let user = JSON.parse(localStorage.getItem("currentUser"));
     
+    this.applicanForm.value.name = user.fcname;
+    this.applicanForm.value.apellidos = user.fclastname1 + " "+ user.fclastname2;
+    this.applicanForm.value.position = user.fcposition;
+    this.applicanForm.value.boss = user.fcimmediatboss;
+    this.applicanForm.value.depto = user.fcdepartment;
+    this.applicanForm.value.direction = user.fcadress;
+    this.applicanForm.value.email = user.fcemail;
+    this.applicanForm.value.phone1 = user.fcextention;
+    this.applicanForm.value.phone2 = user.ficellphone;    
+
+    console.log("applicant form ", this.applicanForm.value);*/
   }
 
   ngOnInit() {
-    
+    let user = JSON.parse(localStorage.getItem("currentUser"));
+    this.applicanForm.setValue({
+        noEmploy:user.fiuserid,
+        name : user.fcname,
+        apellidos:user.fclastname1 + " "+ user.fclastname2,
+        position : user.fcposition,
+        boss : user.fcimmediatboss,
+        depto : user.fcdepartment,
+        direction : user.fcadress,
+        email : user.fcemail,
+        phone1 : user.fcextention,
+        phone2 : user.ficellphone
+     });
   }
 
   ngOnDestroy() {

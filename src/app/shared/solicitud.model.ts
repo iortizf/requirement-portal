@@ -1,8 +1,6 @@
+export class Solicitud{
 
-import { FormGroup } from "@angular/forms";
-
-export class NewRequest{
-    fiuserid:number;
+    firequestid:number;
     ficomplexityid:number;
     fiproductid:number;
     fipriorityid:number;
@@ -15,19 +13,10 @@ export class NewRequest{
     fcstageofafectation:string;
     fcddepartmentsinvolved:string;
     fcproyectdescription:string;
+    fddate:string;
     fcproductowner:string;
     fcsystemcharge:string;
     fcbusinessowner:string;
-    fcbusisnessengineer:string;
-}
-
-export class Tab{
-    name:string;
-    form:FormGroup;
-    index:number;
-    constructor(name:string, index:number){
-        this.name = name;
-        this.index = index;
-    }
-
+    fiadvancehour:number;
+    
 }
