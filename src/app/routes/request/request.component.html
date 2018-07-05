@@ -5,49 +5,18 @@
   </div>
   <div class="card-body">
     <nav class="nav nav-pills nav-justified" style="background-color: #333">
-      <a class="nav-item nav-link active" href="#">INFORMACIÓN DEL SOLICITANTE</a>
-      <a class="nav-item nav-link disabled" href="#">INFORMACIÓN DE LA SOLICITUD</a>
-      <a class="nav-item nav-link disabled" href="#">DESCRIPCIÓN DE LA SOLICITUD</a>
-      <a class="nav-item nav-link disabled" href="#">DESCRIPCIÓN GENERAL DEL PROYECTO</a>
+      <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['applicant-inf']">INFORMACIÓN DEL SOLICITANTE</a>
+      <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['request-inf']">INFORMACIÓN DE LA SOLICITUD</a>
+      <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['request-desc']">DESCRIPCIÓN DE LA SOLICITUD</a>
+      <a class="nav-item nav-link" routerLinkActive="active" [routerLink]="['proyect-desc']">DESCRIPCIÓN GENERAL DEL PROYECTO</a>
     </nav>
-    <form [formGroup]="requestForm">
-      <div class="md-form">
-        <input type="text" id="materialFormCardNameEx" formControlName="materialFormCardNameEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardNameEx" class="font-weight-light">Nombre del proyecto</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardEmailEx" formControlName="materialFormCardEmailEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardEmailEx" class="font-weight-light">Producto</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardConfirmEx" formControlName="materialFormCardConfirmEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardConfirmEx" class="font-weight-light">Empresa</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardConfirmEx" formControlName="materialFormCardConfirmEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardConfirmEx" class="font-weight-light">Categoría</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardConfirmEx" formControlName="materialFormCardConfirmEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardConfirmEx" class="font-weight-light">Descripción</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardConfirmEx" formControlName="materialFormCardConfirmEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardConfirmEx" class="font-weight-light">Director de sistemas:</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardConfirmEx" formControlName="materialFormCardConfirmEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardConfirmEx" class="font-weight-light">Dueño de producto:</label>
-      </div>
-      <div class="md-form">
-        <input type="email" id="materialFormCardConfirmEx" formControlName="materialFormCardConfirmEx" class="form-control" mdbInputDirective>
-        <label for="materialFormCardConfirmEx" class="font-weight-light">Dueño de Negocio:</label>
-      </div>
-    </form>
+    <section>
+        <router-outlet></router-outlet>
+    </section>
   </div>
   <div class="card-footer">
-    <button type="button" class="btn btn-primary btn-sm">Anterior</button>
-    <button type="button" class="btn btn-primary btn-sm">Siguiente</button>
+    <button type="button" class="btn btn-primary btn-sm" [ngClass]="{'disabled':currentTab === 'applicant-inf'}" (click)="back()">Anterior</button>
+    <button type="button" class="btn btn-primary btn-sm pull-right" (click)="next()" >Siguiente</button>
   </div>
 </div>
 <!--/.Panel-->

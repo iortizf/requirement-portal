@@ -13,35 +13,35 @@
             <ngx-datatable-column prop="fcproyectname" name="Proyecto"></ngx-datatable-column>
             <ngx-datatable-column prop="fccompany" name="Producto"></ngx-datatable-column>
             <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
-            <ngx-datatable-column name="Ing. Negocio" [width] ="300" >
-                <ng-template ngx-datatable-cell-template >
-                    <select name="ingenieroNegocio" >
-                        <option value="ingenieroNegocio">Seleccione al Ingeniero de Negocio</option>
-                        
+            <ngx-datatable-column name="negociousuario" [width] ="300" >
+                <ng-template ngx-datatable-cell-template let-value="value">
+                    <select name="ingenieroNegocio" id="ingenieroNegocio" #ingenieroNegocio (change)="changeingenieroNegocio($event.target)" >
+                        <option value="0">Seleccione al Ingeniero de Negocio</option>
                         <option *ngFor="let row of rowsFilter2" 
-                            [value]="row.fiuserid"  >
+                            [value]="row.fiuserid" [selected]="row.fiuserid === value" >
                         {{row.fcname}}  {{row.fclastname1}} {{row.fclastname2}} 
                         </option>
                      </select>
                 </ng-template>                
             </ngx-datatable-column>
-            <ngx-datatable-column name="Ing. Certificador" [width] ="300">
-                <ng-template ngx-datatable-cell-template >
-                    <select name="ingenieroNegocio">
+            <ngx-datatable-column name="certificadorusuario" [width] ="300">
+                <ng-template ngx-datatable-cell-template let-value="value">
+                    <select name="ingenieroCertificador" #ingenieroCertificador (change)="changeingenieroCertificador($event.target)">
                         <option value="">Seleccione al Ingeniero Certificador</option>
                         <option *ngFor="let row3 of rowsFilter3" 
-                            [value]="row3.fiuserid"  >
+                            [value]="row3.fiuserid"  [selected]="row3.fiuserid === value">
                         {{row3.fcname}}  {{row3.fclastname1}} {{row3.fclastname2}} 
                         </option>
                      </select>
                 </ng-template>                
             </ngx-datatable-column>
             <ngx-datatable-column prop="fiadvancehour" name="Avance %"></ngx-datatable-column>
-            <ngx-datatable-column prop="action" name="Acciones" [width] ="210">
+            <ngx-datatable-column prop="firequestid" name="Acciones" [width] ="210">
                 <ng-template ngx-datatable-cell-template let-value="value">
-                    <button type="submit" class="btn btn-primary btn-sm">Asignar</button>
+                    <button (click)="updateBussinessAndCertificatorEngineer(value,{'firequestid': 1,'fcbusisnessengineer': 'JOCSAN','fiuseridbe': 2, 'fccertificatedengineer': 'JOSE','fiuseridce': 3,'ficomplexityid': 1,'fiproductid': 1,'fipriorityid': 1})" class="btn btn-primary btn-sm">Asignar</button>
                 </ng-template>                
             </ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>
+

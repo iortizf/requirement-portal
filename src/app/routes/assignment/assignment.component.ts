@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Router} from '@angular/router';
 import { AssignmentService } from '../../services/assignment.service';
+import { Assignment } from '../../shared/assignment.model';
 
  
 
@@ -14,7 +15,7 @@ import { AssignmentService } from '../../services/assignment.service';
 export class AssignmentComponent implements OnInit {
 
   rowsFilter = [
-    { firequestid: 'IN000000001', proyect: 'Abona y crece', product: 'Crédito', applicant:'Ruben Espindola'}
+    { firequestid: 'IN000000001', fcproyectname: 'Abona y crece', ficomplexityid: 'Crédito', fiproductid:'Ruben Espindola', fipriorityid:'Ruben Espindola'}
   ];
 
   temp = [];
@@ -22,6 +23,10 @@ export class AssignmentComponent implements OnInit {
   temp2 = [];
   rowsFilter3 = [{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'},{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'}];
   temp3 = [];
+  valingenieroNegocio;
+  valingenieroCertificador;
+  selectedType;
+
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   constructor(private assignmentService: AssignmentService,
@@ -77,6 +82,61 @@ export class AssignmentComponent implements OnInit {
     this.table.offset = 0;
 }
 
-  
+changeingenieroNegocio(shape) {
+
+   console.log(shape.value);
+   this.valingenieroNegocio=shape.value;
+ }
+
+ changeingenieroCertificador(shape1) {
+
+  console.log(shape1.value);
+  this.valingenieroCertificador=shape1.value;
+}
+
+
+ updateBussinessAndCertificatorEngineer(firequestid:number,   assignment:Assignment) {
+        console.log("Haciendo updateBussinessAndCertificatorEngineer");
+        console.log(firequestid);
+        var stringForm = firequestid.toString();
+        var requestid = this.rowsFilter.find(x=>x.firequestid == stringForm).fcproyectname;
+        var complexityid = this.rowsFilter.find(x=>x.firequestid == stringForm).ficomplexityid;
+        var productid = this.rowsFilter.find(x=>x.firequestid == stringForm).fiproductid;
+        var priorityid = this.rowsFilter.find(x=>x.firequestid == stringForm).fipriorityid;
+      
+        assignment.firequestid = firequestid;
+        assignment.fcbusisnessengineer="JOCSAN";
+        assignment.fiuseridbe= this.valingenieroNegocio;
+        assignment.fccertificatedengineer="JOSE";
+        assignment.fiuseridce=this.valingenieroCertificador;
+        assignment.ficomplexityid=Number(complexityid);
+        assignment.fiproductid=Number(productid);
+        assignment.fipriorityid=Number(priorityid);
+
+        console.log( assignment.firequestid);
+        console.log(assignment.fcbusisnessengineer);
+        console.log(assignment.fiuseridbe);
+        console.log(assignment.fccertificatedengineer);
+        console.log(assignment.fiuseridce);
+        console.log(assignment.ficomplexityid);
+        console.log(assignment.fiproductid);
+        console.log(assignment.fipriorityid);
+        
+        
+        this.assignmentService.updateBussinessAndCertificatorEngineer(assignment).subscribe(
+          res => {
+          
+            this.router.navigate(["assignment","888899"]);
+          
+          },
+        
+          err => {
+        
+          console.log("Error en login");  
+            //this.loginError = true;
+        }
+        
+    );
+  }
 
 }

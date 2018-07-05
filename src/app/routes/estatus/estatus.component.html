@@ -14,35 +14,24 @@
           <ngx-datatable-column prop="fcbusisnessengineer" name="Ingeniero de Negocio"></ngx-datatable-column>
           <ngx-datatable-column prop="fccertificatedengineer" name="Ingeniero Certificador"></ngx-datatable-column>
           <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
-          <ngx-datatable-column prop="fipriorityid" name="Prioridad"></ngx-datatable-column>
+          <ngx-datatable-column prop=" " name="Prioridad"></ngx-datatable-column>
           <ngx-datatable-column prop="ficomplexityid" name="Complejidad"></ngx-datatable-column>
           <ngx-datatable-column prop="fddate" name="Fecha Inicio"></ngx-datatable-column>
-        
-          <ngx-datatable-column name="Estatus" [width] ="300">
-              <ng-template ngx-datatable-cell-template >
-                  <select name="estatus">
-                      <option value="">Selecciona el estatus</option>
-                      <option value="1">Solicitado</option>
-                      <option value="2">Asignado</option>
-                      <option value="3">Proceso</option>
-                      <option value="4">Validación Sistemas</option>
-                      <option value="5">Validación Negocio</option>
-                      <option value="6">Certificación de Ingeniería</option>
-                      <option value="7">Certificación Estrategica</option>
-                      <option value="8">Publicación</option>
-                      <option value="9">Cancelado</option>
-                      <option value="10">Pospuesto</option>
-                      <option value="11">Terminado</option>
-
+          <ngx-datatable-column name="fistatusid" [width] ="300">
+              <ng-template ngx-datatable-cell-template let-value="value" >
+                  <select   name="shape_id" (change)="changeShape($event.target)" >
+                    <option value="0">Selecciona el estatus </option>
+                     <option *ngFor='let element of rowsFilter2' [value]="element.fistatusid" [selected]="element.fistatusid === value" >{{element.fistatus}}</option> 
                    </select>
+                  
               </ng-template>                
           </ngx-datatable-column>
           <ngx-datatable-column prop="firequestid" name="Acciones" [width] ="210">
             <ng-template ngx-datatable-cell-template let-value="value">
-                {{value}}
-                <button type="button" class="btn btn-primary btn-sm">Guardar</button>
+                <button  class="btn btn-primary btn-sm"   (click)="updateStatusRequest(value)" >Guardar</button>
             </ng-template>                
         </ngx-datatable-column>
+        
       </ngx-datatable>
   </div>
 </div>

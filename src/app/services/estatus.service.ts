@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
+import { Body } from '@angular/http/src/body';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -17,7 +18,7 @@ export class EstatusService {
   constructor(private http: HttpClient) { }
 
   getAssignment(): Observable<Response>{
-    console.log("Invocando servicio de getEstatus url="+this.assignmentUrl+"getRequestForStatus");
+  //  console.log("Invocando servicio de getEstatus url="+this.assignmentUrl+"getRequestForStatus");
     return this.http
     .get<Response>(this.assignmentUrl+"getRequestForStatus",httpOptions)
     .pipe(
@@ -31,9 +32,25 @@ export class EstatusService {
 
   
     getRequestForStatus(): Observable<Response>{
-      console.log("Invocando servicio de getRequestForStatus url="+this.assignmentUrl+"getRequestForStatus");
+    //  console.log("Invocando servicio de getRequestForStatus url="+this.assignmentUrl+"getRequestForStatus");
       return this.http
       .get<Response>(this.assignmentUrl+"getRequestForStatus")
+      .pipe(
+          tap((resp:Response) =>{
+            
+          }),
+          catchError( error => Observable.throw(error)
+        )
+        )
+        
+    }
+
+  
+    updateStatusRequest(requestId:string, statusId:string): Observable<Response>{
+  
+    //  console.log("Invocando servicio de updateStatusRequest url="+this.assignmentUrl+"updateStatusRequest?requestId="+requestId+"&statusId="+statusId);
+      return this.http
+      .post<Response>(this.assignmentUrl+"updateStatusRequest?requestId="+requestId+"&statusId="+statusId,"")
       .pipe(
           tap((resp:Response) =>{
             

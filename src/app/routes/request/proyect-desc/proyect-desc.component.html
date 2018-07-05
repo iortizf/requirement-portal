@@ -1,0 +1,10 @@
+<form [formGroup]="descriptionForm">
+<div class="row my-5">
+  <div class="col-sm-12">
+    <div class="form-group">
+      <label for="desc">DESCRIPCION GENERAL DEL PROYECTO</label>
+      <textarea class="form-control" id="desc" rows="10" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }" ></textarea>
+    </div>
+  </div>
+</div>
+</form>

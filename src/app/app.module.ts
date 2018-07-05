@@ -8,7 +8,8 @@ import { routes } from "./routes/routes";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CalendarModule } from 'angular-calendar';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -22,6 +23,11 @@ import { TracingComponent } from './routes/tracing/tracing.component';
 import { RegisterComponent } from './routes/pages/register/register.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { EstatusComponent } from './routes/estatus/estatus.component';
+import { ApplicantInfComponent } from './routes/request/applicant-inf/applicant-inf.component';
+import { RequestInfComponent } from './routes/request/request-inf/request-inf.component';
+import { RequestDescComponent } from './routes/request/request-desc/request-desc.component';
+import { ProyectDescComponent } from './routes/request/proyect-desc/proyect-desc.component';
+
 
 @NgModule({
   declarations: [
@@ -37,14 +43,23 @@ import { EstatusComponent } from './routes/estatus/estatus.component';
     TracingComponent,
     RegisterComponent,
     FooterComponent,
-    EstatusComponent
+
+    EstatusComponent,
+
+    ApplicantInfComponent,
+    RequestInfComponent,    
+    RequestDescComponent,
+    ProyectDescComponent
+
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
     NgxDatatableModule,
+    TagInputModule,
     RouterModule.forRoot(routes),
     MDBBootstrapModule.forRoot(),
     CalendarModule.forRoot()

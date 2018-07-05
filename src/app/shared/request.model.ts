@@ -1,20 +1,31 @@
-export class Request{
-    firequestid: number;
-    ficomplexityid: number;
-    fiproductid: number;
-    fipriorityid: number;
-    filevelmergetypeid: number;
-    firequesttypeid: number;
-    fcproyectname: string;
-    fccompany: string;
-    fccategory: string;
-    fcproyectdefinition: string;
-    fcstageofafectation: string;
-    fcddepartmentsinvolved: string;
-    fcproyectdescription: string;
-    fddate: string;
-    fcproductowner: string;
-    fcsystemcharge: string;
-    fcbusinessowner: string;
-    fiadvancehour: number;
+
+import { FormGroup } from "@angular/forms";
+
+
+
+export class Applicant{
+    numEmploy:string;
+    name:string;
+    apellidos:string;
+    submited:boolean
+}
+
+export class RequestInfo{
+    proyect:string;
+    product:number;
+    company:string;
+    category:string;
+    decription:string;
+    submited:boolean
+}
+
+export class Tab{
+    name:string;
+    form:FormGroup;
+    index:number;
+    constructor(name:string, index:number){
+        this.name = name;
+        this.index = index;
+    }
+
 }
