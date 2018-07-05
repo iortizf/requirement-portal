@@ -35,6 +35,7 @@ export const routes = [
             { path: 'publish', component: PublishComponent },
             { path: 'assignment', component: AssignmentComponent },
             { path: 'activity', component: ActivityComponent },
+            
             { path: 'estatus', component: EstatusComponent }
         ]            
 

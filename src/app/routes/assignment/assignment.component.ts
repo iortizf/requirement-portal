@@ -131,6 +131,7 @@ changeingenieroNegocio(shape) {
           },
         
           err => {
+            
         
           console.log("Error en login");  
             //this.loginError = true;

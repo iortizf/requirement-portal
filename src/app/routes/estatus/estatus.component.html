@@ -24,7 +24,8 @@
                      <option *ngFor='let element of rowsFilter2' [value]="element.fistatusid" [selected]="element.fistatusid === value" >{{element.fistatus}}</option> 
                    </select>
                   
-              </ng-template>                
+              </ng-template> 
+                             
           </ngx-datatable-column>
           <ngx-datatable-column prop="firequestid" name="Acciones" [width] ="210">
             <ng-template ngx-datatable-cell-template let-value="value">

@@ -8,4 +8,5 @@ export class Assignment{
     fiproductid: number;
     fipriorityid: number;
     
+    
 }

@@ -13,22 +13,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class EstatusService {
-  private assignmentUrl= 'http://10.51.33.63:8080/request/';
+  private assignmentUrl= 'http://10.51.33.63:8081/request/';
   
   constructor(private http: HttpClient) { }
 
-  getAssignment(): Observable<Response>{
-  //  console.log("Invocando servicio de getEstatus url="+this.assignmentUrl+"getRequestForStatus");
-    return this.http
-    .get<Response>(this.assignmentUrl+"getRequestForStatus",httpOptions)
-    .pipe(
-        tap((resp:Response) =>{
-          
-        }),
-        catchError( error => Observable.throw(error)
-      )
-      )
-    }
+
 
   
     getRequestForStatus(): Observable<Response>{

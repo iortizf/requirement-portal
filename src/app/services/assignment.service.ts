@@ -66,7 +66,7 @@ export class AssignmentService {
           }),
           catchError( error => Observable.throw(error)
         )
-        )
+        ) 
         
     }
 }
