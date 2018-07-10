@@ -9,9 +9,11 @@
             </div>
         </div>
         <ngx-datatable #table class='bootstrap no-detail-row' [rows]="rowsFilter" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
-            <ngx-datatable-column prop="fcname" name="Nombre"></ngx-datatable-column>
-            <ngx-datatable-column prop="fclastname1" name="Apellido Paterno"></ngx-datatable-column>
-            <ngx-datatable-column prop="fclastname2" name="Apellido Materno"></ngx-datatable-column>
+            <ngx-datatable-column name="Ing. de negocio">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{row['fcname']+' '+ row['fclastname1']+' '+ row['fclastname2']}}
+                </ng-template>
+            </ngx-datatable-column>
             <ngx-datatable-column prop="fitotalfolio" name="Folios Totales"></ngx-datatable-column>
             <ngx-datatable-column prop="fiasignationmax" name="Disponibilidad de asignación" [width]="200"></ngx-datatable-column>
             <ngx-datatable-column prop="fcCancelados" name="Cancelado"></ngx-datatable-column>

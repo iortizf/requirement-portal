@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs'
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { backEndUrl } from '../shared/constants';
+import { Tracing } from '../shared/tracing.model';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -18,12 +19,17 @@ export class TracingService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerDatosSeguimiento(): Observable<Response> {
+  getDataOfTracing(): Observable<Tracing[]> {
     return this.http
-    .get<Response>(this.publishUrl+"getStatusRequestByBussinesEngineer", httpOptions)
+    .get<Tracing[]>(this.publishUrl+"getStatusRequestByBussinesEngineer", httpOptions)
     .pipe(
-        tap((resp:Response) =>{
-        }),
-      )
+      map((resp:Response) => {
+        if(resp.statusCode == 200)          
+          return resp.body;
+        else
+          Observable.throw("Error al obtener los seguimientos"); 
+      }),
+      catchError( error => Observable.throw(error))
+      );
   } 
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PublishDocumentService } from '../../../services/publish-document.service';
 import { Publish } from '../../../shared/publish.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -18,6 +18,8 @@ export class PublishDocumentComponent implements OnInit {
   publishDocForm: FormGroup;
   ingineers: User[];
   productStrn: String;
+
+  @ViewChild('modal') public modal;
 
   constructor(private publishDocService: PublishDocumentService,
     private fb: FormBuilder,private productService:ProductService,
@@ -43,7 +45,10 @@ export class PublishDocumentComponent implements OnInit {
   }
 
   next() {
-    this.proyectInfo = false;
+    if(!this.proyectInfo){
+      this.modal.show()
+    }
+    this.proyectInfo = false;    
   }
 
 }

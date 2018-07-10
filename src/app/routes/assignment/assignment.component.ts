@@ -10,7 +10,6 @@ import { User } from '../../shared/user.model';
 @Component({
   selector: 'app-assignment',
   templateUrl: './assignment.component.html',
-  styleUrls: ['./assignment.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class AssignmentComponent implements OnInit {

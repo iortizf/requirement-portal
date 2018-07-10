@@ -6,10 +6,13 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule }    from '@angular/common/http';
 import { routes } from "./routes/routes";
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { ProgressbarModule } from 'ngx-bootstrap/progressbar';
 import { CalendarModule } from 'angular-calendar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 import { AppComponent } from './app.component';
 import { LayoutComponent } from './layout/layout.component';
 import { HeaderComponent } from './layout/header/header.component';
@@ -46,9 +49,7 @@ import { PublishHomeComponent } from './routes/publish/publish-home/publish-home
     TracingComponent,
     RegisterComponent,
     FooterComponent,
-
     EstatusComponent,
-
     ApplicantInfComponent,
     RequestInfComponent,    
     RequestDescComponent,
@@ -65,6 +66,7 @@ import { PublishHomeComponent } from './routes/publish/publish-home/publish-home
     HttpClientModule,
     NgxDatatableModule,    
     TagInputModule,
+    ProgressbarModule.forRoot(),    
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(routes),
     MDBBootstrapModule.forRoot(),

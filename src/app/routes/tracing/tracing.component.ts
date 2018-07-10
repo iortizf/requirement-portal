@@ -9,8 +9,9 @@ import { Tracing } from '../../shared/tracing.model';
   encapsulation: ViewEncapsulation.None
 })
 export class TracingComponent implements OnInit {
-  rowsFilter = [];
-  temp = [];
+
+  rowsFilter: Tracing[];
+  temp: Tracing[];
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -19,10 +20,10 @@ export class TracingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.tracingService.obtenerDatosSeguimiento().subscribe(resp =>
+    this.tracingService.getDataOfTracing().subscribe(resp =>
     {
-      this.rowsFilter = resp.body;
-      this.temp = this.rowsFilter;
+      this.rowsFilter = resp;
+      this.temp = resp;
     },
     error=>{
       console.error(error);
