@@ -31,6 +31,7 @@ export class RequestService {
   }
 
   newRequest(newReq: NewRequest) : Observable<boolean>{
+    console.log("Newn Request Data", newReq);
     console.log("Invocando servicio de login url=" + this.loginUrl+"postNewRequest");
     return this.http.post<boolean>(this.loginUrl + "postNewRequest", newReq, httpOptions)
       .pipe(

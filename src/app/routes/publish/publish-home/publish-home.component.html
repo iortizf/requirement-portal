@@ -1,0 +1,28 @@
+<div class="card card-default">
+  <div class="card-header">
+    <div class="card-title">Publicación de un proyecto</div>
+  </div>
+  <div class="card-body">
+    <div class="row mb-4">
+      <div class="col-lg-4">
+        <input type='text' class="form-control" placeholder='Buscar por nombre de proyecto' (keyup)='updateFilter($event)' />
+      </div>
+    </div>
+    <ngx-datatable #table class='bootstrap no-detail-row' [rows]="publishers" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
+      [limit]="10">
+      <ngx-datatable-column prop="firequestid" name="Folio"></ngx-datatable-column>
+      <ngx-datatable-column prop="fcproyectname" name="Nombre del proyecto"></ngx-datatable-column>
+      <ngx-datatable-column prop="fcproyectdescription" name="Descripción"></ngx-datatable-column>
+      <ngx-datatable-column prop="status" name="Estatus">
+        <ng-template ngx-datatable-cell-template let-value="value">
+          <span class="border border-success text-success">CERTIFICACIÓN</span>
+        </ng-template>
+      </ngx-datatable-column>
+      <ngx-datatable-column prop="accion" name="Acciones">
+        <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+          <button type="button" class="btn btn-primary btn-sm" (click)="showDocumentForm(row)">Publicar</button>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

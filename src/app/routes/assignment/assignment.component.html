@@ -15,7 +15,7 @@
             <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
             <ngx-datatable-column name="negociousuario" [width] ="300" >
                 <ng-template ngx-datatable-cell-template let-value="value">
-                    <select name="ingenieroNegocio" id="ingenieroNegocio" #ingenieroNegocio (change)="changeingenieroNegocio($event.target)" >
+                    <select class="form-control" name="ingenieroNegocio" id="ingenieroNegocio" #ingenieroNegocio (change)="changeingenieroNegocio($event.target)" >
                         <option value="0">Seleccione al Ingeniero de Negocio</option>
                         <option *ngFor="let row of rowsFilter2" 
                             [value]="row.fiuserid" [selected]="row.fiuserid === value" >
@@ -26,7 +26,7 @@
             </ngx-datatable-column>
             <ngx-datatable-column name="certificadorusuario" [width] ="300">
                 <ng-template ngx-datatable-cell-template let-value="value">
-                    <select name="ingenieroCertificador" #ingenieroCertificador (change)="changeingenieroCertificador($event.target)">
+                    <select class="form-control" name="ingenieroCertificador" #ingenieroCertificador (change)="changeingenieroCertificador($event.target)">
                         <option value="">Seleccione al Ingeniero Certificador</option>
                         <option *ngFor="let row3 of rowsFilter3" 
                             [value]="row3.fiuserid"  [selected]="row3.fiuserid === value">

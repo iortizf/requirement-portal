@@ -1,0 +1,174 @@
+<!--Panel-->
+<div class="card">
+  <div class="card-header text-center dark-text">
+    FORMATO DE SOLICITUD PARA
+    <br> PUBLICAR DOCUMENTACIÓN DE INGENIERIA DE NEGOCIO
+  </div>
+  <div class="card-body">
+    <nav class="nav nav-pills nav-justified" style="background-color: #333">
+      <a class="nav-item nav-link" href="javascript:void(0);" [ngClass]="{'active': proyectInfo}" (click)="proyectInfo = true">INFORMACIÓN DEL PROYECTO</a>
+      <a class="nav-item nav-link" href="javascript:void(0);" [ngClass]="{'active': !proyectInfo,'disabled':proyectInfo}" (click)="proyectInfo = false">INFORMACIÓN DEL SOLICITANTE</a>
+    </nav>
+    <section>
+      <div id="proyectInfoSection" *ngIf="proyectInfo">
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="name">Folio</label>
+            <input id="name" class="form-control" [value]="publish.firequestid" readonly>
+          </div>
+          <div class="form-group col">
+            <label for="proyectName">Nombre del proyecto</label>
+            <input id="proyectName" class="form-control" [value]="publish.fcproyectname" readonly>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="product">Producto</label>
+            <input id="product" class="form-control" [value]="productStrn" readonly>
+          </div>
+          <div class="form-group col">
+            <label for="category">Categoría</label>
+            <input id="category" class="form-control" [value]="publish.fccategory" readonly>
+          </div>
+          <div class="form-group col">
+            <label for="company">Empresa</label>
+            <input id="company" class="form-control" [value]="publish.fccompany" readonly>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="director">Director de sistemas</label>
+            <input id="director" class="form-control" [value]="publish.fcsystemcharge" readonly>
+          </div>
+          <div class="form-group col">
+            <label for="productowner">Dueño de producto</label>
+            <input id="productowner" class="form-control" [value]="publish.fcproductowner" readonly>
+          </div>
+          <div class="form-group col">
+            <label for="business">Dueño de negocio</label>
+            <input id="business" class="form-control" [value]="publish.fcbusinessowner" readonly>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <label for="productDesc">Descripción del producto</label>
+            <textarea class="form-control" id="productDesc" rows="5" readonly></textarea>
+          </div>
+          <div class="form-group col">
+            <label for="proyectDesc">Descripción del proyecto</label>
+            <textarea class="form-control" id="proyectDesc" rows="5" readonly></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div id="personalInfoSection" *ngIf="!proyectInfo">
+        <form [formGroup]="publishDocForm">
+          <div class="form-row">
+            <div class="form-group col">
+              <label for="ing">Ingeniero de negocio</label>
+              <select id="ing" class="form-control" formControlName="engineer" [ngClass]="{ 'is-invalid': submitted && f.engineer.errors }">
+                <option [value]="ingineer.fiuserid" *ngFor="let ingineer of ingineers">{{ ingineer.fcname +' '+ingineer.fclastname1+' '+ingineer.fclastname2}}</option>
+              </select>
+            </div>
+            <div class="form-group col">
+              <label for="start">Fecha Inicio</label>
+              <input type="text" id="start" class="form-control" autocomplete="off" bsDatepicker>
+            </div>
+            <div class="form-group col">
+              <label for="start">Fecha Fin</label>
+              <input type="text" id="start" class="form-control" autocomplete="off" bsDatepicker>
+            </div>
+          </div>
+          <div class="form-row">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th width="50%">Name</th>
+                  <th>Tamaño</th>
+                  <th>Tipo documento</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>documentacion1.doc</strong>
+                  </td>
+                  <td>10 MB</td>
+                  <td>
+                    <select class="form-control form-control-sm">
+                      <option value="1">Documentación</option>
+                      <option value="2">Funcionalidad</option>
+                      <option value="3">Certificación</option>
+                      <option value="4">Observaciones</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button type="button" style="margin-top:0;" class="btn btn-primary btn-sm">
+                      <span class="fa icon-cloud-upload mr"></span>Elegir archivo
+                    </button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <strong>funcionalidad_captacion.doc</strong>
+                  </td>
+                  <td>10 MB</td>
+                  <td>
+                    <select class="form-control form-control-sm">
+                      <option value="1">Documentación</option>
+                      <option value="2" selected>Funcionalidad</option>
+                      <option value="3">Certificación</option>
+                      <option value="4">Observaciones</option>
+                    </select>
+                  </td>
+                  <td>
+                    <button type="button" style="margin-top:0;" class="btn btn-primary btn-sm">
+                      <span class="fa icon-cloud-upload mr"></span>Elegir archivo
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+      </div>
+    </section>
+  </div>
+  <div class="card-footer">
+    <button type="button" class="btn btn-primary btn-sm" [disabled]="proyectInfo" (click)="proyectInfo = true">Anterior</button>
+    <button type="button" class="btn btn-primary btn-sm pull-right" (click)="next();modal.show()">{{proyectInfo?'Siguiente':'Terminar'}}</button>
+  </div>
+</div>
+
+<div mdbModal #modal="mdb-modal" class="modal fade" id="modalinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-info" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <p class="heading lead">Envío de correos</p>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.hide()">
+          <span aria-hidden="true" class="white-text">×</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <h3>¿Esta seguro que desea terminar?</h3>
+          <br>
+          <span>Se enviará una notificación a :
+            <b>nherndaze@elektra.com.mx</b>
+          </span>
+          <br>
+          <div>
+              <br>
+              <input type="mail" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal" (click)="modal.hide()" mdbWavesEffect>Cerrar</button>
+        <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="send()">Enviar</button>
+      </div>
+    </div>
+  </div>
+</div>

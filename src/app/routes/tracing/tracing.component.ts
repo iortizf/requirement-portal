@@ -6,7 +6,6 @@ import { Tracing } from '../../shared/tracing.model';
 @Component({
   selector: 'app-tracing',
   templateUrl: './tracing.component.html',
-  styleUrls: ['./tracing.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class TracingComponent implements OnInit {

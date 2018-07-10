@@ -94,7 +94,7 @@ export class RequestComponent implements OnInit {
 
     newReq.fiuserid = user.fiuserid;
     newReq.ficomplexityid = requestDesc.complex;
-    newReq.fiproductid = requestInfo.product;
+    newReq.fiproductid = parseInt(requestInfo.product);
     newReq.firequesttypeid = requestDesc.requestype;
     newReq.filevelmergetypeid = requestDesc.business;
     newReq.fcproyectname = requestInfo.pname;

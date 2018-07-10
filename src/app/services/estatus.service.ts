@@ -13,7 +13,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class EstatusService {
-  private assignmentUrl= 'http://10.51.33.63:8081/request/';
+  private assignmentUrl= 'http://10.51.145.32:8080/request/';
   
   constructor(private http: HttpClient) { }
 

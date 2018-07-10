@@ -19,7 +19,7 @@
           <ngx-datatable-column prop="fddate" name="Fecha Inicio"></ngx-datatable-column>
           <ngx-datatable-column name="fistatusid" [width] ="300">
               <ng-template ngx-datatable-cell-template let-value="value" >
-                  <select   name="shape_id" (change)="changeShape($event.target)" >
+                  <select class="form-control"   name="shape_id" (change)="changeShape($event.target)" >
                     <option value="0">Selecciona el estatus </option>
                      <option *ngFor='let element of rowsFilter2' [value]="element.fistatusid" [selected]="element.fistatusid === value" >{{element.fistatus}}</option> 
                    </select>

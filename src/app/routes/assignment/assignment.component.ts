@@ -3,6 +3,7 @@ import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { Router} from '@angular/router';
 import { AssignmentService } from '../../services/assignment.service';
 import { Assignment } from '../../shared/assignment.model';
+import { User } from '../../shared/user.model';
 
  
 
@@ -19,9 +20,9 @@ export class AssignmentComponent implements OnInit {
   ];
 
   temp = [];
-  rowsFilter2 = [{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'},{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'}];
+  rowsFilter2 : User[];//[{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'},{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'}];
   temp2 = [];
-  rowsFilter3 = [{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'},{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'}];
+  rowsFilter3 : User[];//[{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'},{fiuserid:2,fcname:'Jocsan',fclastname1:'Benito',fclastname2:'Luna'}];
   temp3 = [];
   valingenieroNegocio;
   valingenieroCertificador;
@@ -48,17 +49,17 @@ export class AssignmentComponent implements OnInit {
     }, error => {
       console.error(error);
     });
-    this.assignmentService.getUserByRole("2").subscribe( resp2 =>{
+    this.assignmentService.getUserByRole(2).subscribe( resp2 =>{
   
-     this.rowsFilter2 = resp2.body;
+     this.rowsFilter2 = resp2;
       this.temp2 = this.rowsFilter2;
   // console.log("roles"+ JSON.stringify(resp2.body));
     }, error => {
       console.error(error);
     });
-    this.assignmentService.getUserByRole("3").subscribe( resp3 =>{
+    this.assignmentService.getUserByRole(3).subscribe( resp3 =>{
   
-      this.rowsFilter3 = resp3.body;
+      this.rowsFilter3 = resp3;
        this.temp3 = this.rowsFilter3;
    // console.log("roles"+ JSON.stringify(resp2.body));
      }, error => {

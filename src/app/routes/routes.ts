@@ -13,6 +13,8 @@ import { ApplicantInfComponent } from "./request/applicant-inf/applicant-inf.com
 import { RequestInfComponent } from "./request/request-inf/request-inf.component";
 import { RequestDescComponent } from "./request/request-desc/request-desc.component";
 import { ProyectDescComponent } from "./request/proyect-desc/proyect-desc.component";
+import { PublishDocumentComponent } from "./publish/publish-document/publish-document.component";
+import { PublishHomeComponent } from "./publish/publish-home/publish-home.component";
 
 export const routes = [
 
@@ -32,10 +34,19 @@ export const routes = [
                     { path: 'proyect-desc', component: ProyectDescComponent }
                 ]
             },
-            { path: 'publish', component: PublishComponent },
+            { 
+                path: 'publish', component: PublishComponent ,
+                children: [
+                    { path: '', redirectTo: 'home', pathMatch: 'full' },
+                    { path: 'home', component: PublishHomeComponent },
+                    { path: 'document', component: PublishDocumentComponent }
+                ]
+        
+            },
             { path: 'assignment', component: AssignmentComponent },
             { path: 'activity', component: ActivityComponent },
-            { path: 'estatus', component: EstatusComponent }
+            { path: 'estatus', component: EstatusComponent },
+            { path: 'publish-document', component: EstatusComponent }
         ]            
 
     },

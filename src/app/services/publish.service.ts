@@ -18,7 +18,7 @@ export class PublishService {
 
   constructor(private http: HttpClient) { }
 
-  obtenerDatos(statusId:number, userId:number): Observable<Publish> {
+  obtenerDatos(statusId:number, userId:number): Observable<Publish[]> {
     return this.http
     .get<Publish>(this.publishUrl+"getRequestByStatusAndRole?statusId="+statusId+"&userId="+userId, httpOptions)
     .pipe(

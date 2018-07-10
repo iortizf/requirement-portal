@@ -27,6 +27,9 @@ import { ApplicantInfComponent } from './routes/request/applicant-inf/applicant-
 import { RequestInfComponent } from './routes/request/request-inf/request-inf.component';
 import { RequestDescComponent } from './routes/request/request-desc/request-desc.component';
 import { ProyectDescComponent } from './routes/request/proyect-desc/proyect-desc.component';
+import { PublishDocumentComponent } from './routes/publish/publish-document/publish-document.component';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { PublishHomeComponent } from './routes/publish/publish-home/publish-home.component';
 
 
 @NgModule({
@@ -49,7 +52,9 @@ import { ProyectDescComponent } from './routes/request/proyect-desc/proyect-desc
     ApplicantInfComponent,
     RequestInfComponent,    
     RequestDescComponent,
-    ProyectDescComponent
+    ProyectDescComponent,
+    PublishDocumentComponent,
+    PublishHomeComponent
 
   ],
   imports: [
@@ -58,8 +63,9 @@ import { ProyectDescComponent } from './routes/request/proyect-desc/proyect-desc
     ReactiveFormsModule,
     HttpModule,
     HttpClientModule,
-    NgxDatatableModule,
+    NgxDatatableModule,    
     TagInputModule,
+    BsDatepickerModule.forRoot(),
     RouterModule.forRoot(routes),
     MDBBootstrapModule.forRoot(),
     CalendarModule.forRoot()
