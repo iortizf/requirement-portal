@@ -4,6 +4,7 @@ import { Observable } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { RequestType } from "../shared/catalog.model";
+import { backEndUrl } from '../shared/constants';
 
 
 @Injectable({
@@ -11,7 +12,7 @@ import { RequestType } from "../shared/catalog.model";
 })
 export class RequestTypeService {
 
-  private loginUrl = 'http://10.51.145.32:8080/request/';
+  private loginUrl = backEndUrl;
 
   constructor(private http: HttpClient) { }
 

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Response } from '../shared/response.model';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Meeting } from '../shared/meeting.model';
+import { backEndUrl } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -14,9 +15,9 @@ const httpOptions = {
 })
 export class MeetingService {
 
-  private addMeetingUrl= 'http://10.51.145.32:8080/request/createMeeting';
-  private getRequestUrl = 'http://10.51.145.32:8080/request/getRequest';
-  private getMeetingsUrl = 'http://10.51.145.32:8080/request/getMeeting';
+  private addMeetingUrl= backEndUrl+'createMeeting';
+  private getRequestUrl = backEndUrl+'getRequest';
+  private getMeetingsUrl = backEndUrl+'getMeeting';
 
   constructor(private http: HttpClient) { }
 

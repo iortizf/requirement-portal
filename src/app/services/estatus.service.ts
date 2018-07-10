@@ -4,6 +4,7 @@ import { Observable} from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Body } from '@angular/http/src/body';
+import { backEndUrl } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -13,7 +14,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class EstatusService {
-  private assignmentUrl= 'http://10.51.145.32:8080/request/';
+  private assignmentUrl= backEndUrl;
   
   constructor(private http: HttpClient) { }
 

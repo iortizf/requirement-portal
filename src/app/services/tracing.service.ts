@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
+import { backEndUrl } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -13,7 +14,7 @@ const httpOptions = {
 })
 export class TracingService {
 
-  private publishUrl= 'http://localhost:8080/request/';
+  private publishUrl= backEndUrl;
 
   constructor(private http: HttpClient) { }
 

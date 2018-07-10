@@ -4,6 +4,7 @@ import { Observable} from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../shared/user.model';
 import { Response } from '../shared/response.model';
+import { backEndUrl } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -14,7 +15,7 @@ const httpOptions = {
 })
 export class LoginService {
 
-  private loginUrl= 'http://localhost:8080/request/';
+  private loginUrl= backEndUrl;
   
   constructor(private http: HttpClient) { }
   

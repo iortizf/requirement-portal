@@ -5,6 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Assignment } from '../shared/assignment.model';
 import { User } from '../shared/user.model';
+import { backEndUrl } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,7 +16,7 @@ const httpOptions = {
 })
 export class AssignmentService {
 
-  private assignmentUrl = 'http://10.51.145.32:8080/request/';
+  private assignmentUrl = backEndUrl;
 
   constructor(private http: HttpClient) { }
 

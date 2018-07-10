@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
+import { backEndUrl } from '../shared/constants';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +18,7 @@ const httpOptions = {
 })
 export class RequestService {
 
-  private loginUrl = 'http://10.51.145.32:8080/request/';
+  private loginUrl = backEndUrl;
 
   private submitedSource = new Subject<String>();
 
