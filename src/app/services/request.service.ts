@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
-import { backEndUrl } from '../shared/constants';
+import { backEndUrl, CustomError } from '../shared/constants';
 
 
 const httpOptions = {
@@ -37,13 +37,12 @@ export class RequestService {
     console.log("Invocando servicio de login url=" + this.loginUrl+"postNewRequest");
     return this.http.post<boolean>(this.loginUrl + "postNewRequest", newReq, httpOptions)
       .pipe(
-        tap((resp: Response) => {
+        map((resp: Response) => {
           console.log(resp);
           if (resp.statusCode != 201) {//Validate error
-            Observable.throw("Error al guardar los datos \n Detalles \n " + resp.errors.toString() );
-          }
-        }),
-        catchError(error => Observable.throw(error))
+            throw new CustomError("RequestService.newRequest()", resp.errors);
+          }          
+        })
       )
   }
 }

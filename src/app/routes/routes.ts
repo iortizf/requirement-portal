@@ -15,6 +15,7 @@ import { RequestDescComponent } from "./request/request-desc/request-desc.compon
 import { ProyectDescComponent } from "./request/proyect-desc/proyect-desc.component";
 import { PublishDocumentComponent } from "./publish/publish-document/publish-document.component";
 import { PublishHomeComponent } from "./publish/publish-home/publish-home.component";
+import { RoleService } from "../services/role.service";
 
 export const routes = [
 
@@ -23,7 +24,7 @@ export const routes = [
         component: LayoutComponent, canActivate: [AuthguardService],
         children: [
             { path: '', redirectTo: 'tracing', pathMatch: 'full' },
-            { path: 'tracing', component: TracingComponent },
+            { path: 'tracing', component: TracingComponent, canActivate:[RoleService] },
             {
                 path: 'request', component: RequestComponent,
                 children: [
@@ -43,9 +44,9 @@ export const routes = [
                 ]
         
             },
-            { path: 'assignment', component: AssignmentComponent },
+            { path: 'assignment', component: AssignmentComponent, canActivate:[RoleService]},
             { path: 'activity', component: ActivityComponent },
-            { path: 'estatus', component: EstatusComponent },
+            { path: 'estatus', component: EstatusComponent, canActivate:[RoleService]},
             { path: 'publish-document', component: EstatusComponent }
         ]            
 

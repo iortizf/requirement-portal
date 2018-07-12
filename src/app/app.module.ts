@@ -34,7 +34,6 @@ import { PublishDocumentComponent } from './routes/publish/publish-document/publ
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PublishHomeComponent } from './routes/publish/publish-home/publish-home.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

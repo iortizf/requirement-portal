@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable} from 'rxjs'
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, throwError} from 'rxjs'
+import { catchError, map, tap, mergeMap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Publish } from '../shared/publish.model';
-import { backEndUrl } from '../shared/constants';
+import { backEndUrl, CustomError } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -21,15 +21,13 @@ export class PublishService {
 
   obtenerDatos(statusId:number, userId:number): Observable<Publish[]> {
     return this.http
-    .get<Publish>(this.publishUrl+"getRequestByStatusAndRole?statusId="+statusId+"&userId="+userId, httpOptions)
+    .get<Publish[]>(this.publishUrl+"getRequestByStatusAndRole?statusId="+statusId+"&userId="+userId, httpOptions)
     .pipe(
       map((resp:Response) => {
         if(resp.statusCode == 200)
           return resp.body;
         else
-          Observable.throw("Error al obtener los requerimientos"); 
-      }),
-      catchError( error => Observable.throw(error))
-      )
+          throw new CustomError("PublishService.obtenerDatos()", resp.errors);
+      }))
   } 
 }

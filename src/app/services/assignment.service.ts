@@ -5,7 +5,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Assignment } from '../shared/assignment.model';
 import { User } from '../shared/user.model';
-import { backEndUrl } from '../shared/constants';
+import { backEndUrl, CustomError } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,62 +16,32 @@ const httpOptions = {
 })
 export class AssignmentService {
 
-  private assignmentUrl = backEndUrl;
-
   constructor(private http: HttpClient) { }
 
-  getAssignment(): Observable<Response> {
-    console.log("Invocando servicio de getRequest url=" + this.assignmentUrl + "getRequest");
+  getAssignment(): Observable<Assignment[]> {
+    console.log("Invocando servicio de getRequest url=" + backEndUrl + "getRequest");
     return this.http
-      .get<Response>(this.assignmentUrl + "getRequest", httpOptions)
-      .pipe(
-        tap((resp: Response) => {
-
-        }),
-        catchError(error => Observable.throw(error)
-        )
-      )
-
-  }
-  getUserByRole(roleId: number): Observable<User[]> {
-    console.log("Invocando servicio de getUserByRole url=" + this.assignmentUrl + "getUserByRol?roleId=" + roleId);
-    return this.http
-      .get<User[]>(this.assignmentUrl + "getUserByRol?roleId=" + roleId, httpOptions)
+      .get<Assignment[]>(backEndUrl + "getRequest", httpOptions)
       .pipe(
         map((resp: Response) => {
           if (resp.statusCode == 200)
             return resp.body;
           else
-            Observable.throw("Error al obtener los productos");
-        }),
-        catchError(error => Observable.throw(error)
-        )
+            throw new CustomError("AssignmentService.getAssignment()", resp.errors);
+        })
       )
-
   }
-
-  updateBussinessAndCertificatorEngineer(assignment: Assignment): Observable<Response> {
-
-    console.log("Invocando servicio de updateBussinessAndCertificatorEngineer url=" + this.assignmentUrl + "updateBussinessAndCertificatorEngineer");
-    let body = JSON.stringify(assignment);
+  getUserByRole(roleId: number): Observable<User[]> {
+    console.log("Invocando servicio de getUserByRole url=" + backEndUrl + "getUserByRol?roleId=" + roleId);
     return this.http
-      .post<Response>(this.assignmentUrl + "updateBussinessAndCertificatorEngineer", body, httpOptions)
+      .get<User[]>(backEndUrl + "getUserByRol?roleId=" + roleId, httpOptions)
       .pipe(
-        tap((resp: Response) => {
-
-          if (resp.statusCode == 201) {//Good login
-
-            alert("assignment creado correctamente");
-
-          } else {
-
-            Observable.throw("Error al crear la assignment");
-
-          }
-        }),
-        catchError(error => Observable.throw(error)
-        )
+        map((resp: Response) => {
+          if (resp.statusCode == 200)
+            return resp.body;
+          else
+            throw new CustomError("AssignmentService.getUserByRole()", resp.errors);
+        })
       )
-
   }
 }

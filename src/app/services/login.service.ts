@@ -19,20 +19,19 @@ export class LoginService {
   
   constructor(private http: HttpClient) { }
   
-  login(employId:string, pwd:string): Observable<Response> {
+  login(employId:string, pwd:string): Observable<boolean> {
     console.log("Invocando servicio de login url="+this.loginUrl+"getUserLogin?userId="+employId+"&pass="+pwd);
     return this.http
-    .get<Response>(this.loginUrl+"getUserLogin?userId="+employId+"&pass="+pwd, httpOptions)
+    .get<boolean>(this.loginUrl+"getUserLogin?userId="+employId+"&pass="+pwd, httpOptions)
     .pipe(
-        tap((resp:Response) =>{
+        map((resp:Response) =>{
      //     console.log(resp);
           if(resp.statusCode == 200){//Good login
             localStorage.setItem('currentUser', JSON.stringify(resp.body[0]));
           }else{
-            Observable.throw("El usuario o contraseña son incorrectos");
+            throw new Error("Usuario o contraseña incorrectos");
           }          
-        }),
-        catchError( error => Observable.throw(error))
+        })
       )
   } 
 

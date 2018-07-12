@@ -41,8 +41,8 @@
                 </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column prop="firequestid" name="Acciones" [width] ="210">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <button (click)="updateBussinessAndCertificatorEngineer(value,{'firequestid': 1,'fcbusisnessengineer': 'JOCSAN','fiuseridbe': 2, 'fccertificatedengineer': 'JOSE','fiuseridce': 3,'ficomplexityid': 1,'fiproductid': 1,'fipriorityid': 1})" class="btn btn-primary btn-sm">Asignar</button>
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button (click)="updateAssignment(row)" class="btn btn-primary btn-sm">Asignar</button>
                 </ng-template>                
             </ngx-datatable-column>
         </ngx-datatable>

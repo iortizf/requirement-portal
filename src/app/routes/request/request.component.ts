@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RequestService } from '../../services/request.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Tab, NewRequest } from '../../shared/request.model';
+import { ModalMessageService } from '../../services/modal-message.service';
+import { ModalData, MODAL_ERROR, MODAL_SUCCESS } from '../../shared/constants';
 
 @Component({
   selector: 'app-request',
@@ -25,7 +27,8 @@ export class RequestComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     public router: Router, private fb: FormBuilder,
-    private requestService: RequestService) {
+    private requestService: RequestService,
+    private modalMessageService:ModalMessageService) {
 
     this.tabs[0].form = this.requestService.currentForm = fb.group({
       noEmploy: [null, Validators.required],
@@ -94,7 +97,7 @@ export class RequestComponent implements OnInit {
 
     newReq.fiuserid = user.fiuserid;
     newReq.ficomplexityid = requestDesc.complex;
-    newReq.fiproductid = parseInt(requestInfo.product);
+    newReq.fiproductid = requestInfo.product;
     newReq.firequesttypeid = requestDesc.requestype;
     newReq.filevelmergetypeid = requestDesc.business;
     newReq.fcproyectname = requestInfo.pname;
@@ -112,9 +115,13 @@ export class RequestComponent implements OnInit {
     this.requestService.newRequest(newReq).subscribe(
       resp => {
         this.router.navigate(["/"]);
+        this.modalMessageService.showModalMessage(new ModalData( MODAL_SUCCESS, ["La solicitud se guardó correctamente"]));
       },
       error => {
+        this.modal.hide();
         console.error("Error al guardar la solicitud!");
+        if(error.errors)
+          this.modalMessageService.showModalMessage(new ModalData( MODAL_ERROR, error.errors));
       });
   }
 

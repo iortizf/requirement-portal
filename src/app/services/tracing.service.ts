@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs'
 import { catchError, map } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
-import { backEndUrl } from '../shared/constants';
+import { backEndUrl, CustomError } from '../shared/constants';
 import { Tracing } from '../shared/tracing.model';
 
 const httpOptions = {
@@ -19,17 +19,17 @@ export class TracingService {
 
   constructor(private http: HttpClient) { }
 
-  getDataOfTracing(): Observable<Tracing[]> {
+  getDataOfTracing(): Observable<Tracing[]> {    
     return this.http
     .get<Tracing[]>(this.publishUrl+"getStatusRequestByBussinesEngineer", httpOptions)
     .pipe(
       map((resp:Response) => {
+        console.log("Response", resp);
         if(resp.statusCode == 200)          
           return resp.body;
         else
-          Observable.throw("Error al obtener los seguimientos"); 
-      }),
-      catchError( error => Observable.throw(error))
-      );
+        throw new CustomError("PublishService.obtenerDatos()", resp.errors); 
+      })
+    );
   } 
 }

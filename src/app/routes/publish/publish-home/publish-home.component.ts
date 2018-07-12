@@ -4,6 +4,8 @@ import { PublishService } from '../../../services/publish.service';
 import { Publish } from '../../../shared/publish.model'
 import { PublishDocumentService } from '../../../services/publish-document.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalMessageService } from '../../../services/modal-message.service';
+import { ModalData, MODAL_ERROR } from '../../../shared/constants';
 
 @Component({
   selector: 'app-publish-home',
@@ -20,7 +22,8 @@ export class PublishHomeComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     public router: Router,private publishService:PublishService, 
-    private publishDocService:PublishDocumentService) {
+    private publishDocService:PublishDocumentService,
+    private modalMessageService:ModalMessageService) {
     this.temp = this.publishers;
   }
 
@@ -32,7 +35,15 @@ export class PublishHomeComponent implements OnInit {
         this.publishers = resp;
       },
       error=>{
-        console.error(error);
+        console.error(error)
+        if(error.errors)
+          this.modalMessageService.showModalMessage(
+            new ModalData(MODAL_ERROR,error.errors)
+          );
+        else
+          this.modalMessageService.showModalMessage(
+            new ModalData(MODAL_ERROR,[error.status+"-"+error.message],"publish")
+          );
       }
     );
   }

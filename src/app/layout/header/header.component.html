@@ -13,28 +13,8 @@
 
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link waves-light" mdbWavesEffect>Inicio
-                    <span class="sr-only">(current)</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link waves-light" [routerLink]="['/request']" mdbWavesEffect>Solicitud</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link waves-light" [routerLink]="['/publish']" mdbWavesEffect>Publicación</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link waves-light" [routerLink]="['/tracing']" mdbWavesEffect>Seguimiento</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link waves-light" [routerLink]="['/assignment']" mdbWavesEffect>Asignación</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link waves-light" [routerLink]="['/estatus']" mdbWavesEffect>Estatus</a>
-            </li>
-            <li class="nav-item" routerLinkActive="active">
-                <a class="nav-link waves-light" [routerLink]="['/activity']" mdbWavesEffect>Bitácora</a>
+            <li class="nav-item" routerLinkActive="active" *ngFor="let menu of menus" >
+                <a  *ngIf="menu.hide" href class="nav-link waves-light" [routerLink]="['/'+menu.link]" mdbWavesEffect>{{menu.text}}</a>
             </li>
 
         </ul>
