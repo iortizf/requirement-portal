@@ -29,7 +29,7 @@ export class PublishHomeComponent implements OnInit {
 
   ngOnInit() {
     let user = JSON.parse(localStorage.getItem("currentUser"));
-    this.publishService.obtenerDatos(1, user.fiuserid).subscribe(
+    this.publishService.obtenerDatos(8, user.fiuserid).subscribe(
       resp =>{
         console.log("Publish Data", resp);        
         this.publishers = resp;

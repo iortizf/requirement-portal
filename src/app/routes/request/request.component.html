@@ -1,4 +1,5 @@
 <!--Panel-->
+<div class="container">
 <div class="card">
   <div class="card-header text-center dark-text">
     FORMATO DE SOLICITUD PARA INGENIERIA DE NEGOCIO
@@ -18,6 +19,7 @@
     <button type="button" class="btn btn-primary btn-sm" [ngClass]="{'disabled':currentTab === 'applicant-inf'}" (click)="back()">Anterior</button>
     <button type="button" class="btn btn-primary btn-sm pull-right" (click)="next()" >{{currentTab == 'proyect-desc'?'Terminar':'Siguiente'}}</button>
   </div>
+</div>
 </div>
 
 <div mdbModal #modal="mdb-modal" class="modal fade" id="modalinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

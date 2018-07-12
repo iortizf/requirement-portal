@@ -1,0 +1,24 @@
+export class Status{
+    fcbusinessowner:string;
+    fcbusisnessengineer:string;
+    fccategory:string;
+    fccertificatedengineer:string;
+    fccompany:string;
+    fcddepartmentsinvolved:string;
+    fcproductowner:string;
+    fcproyectdefinition:string;
+    fcproyectdescription:string;
+    fcproyectname:string;
+    fcstageofafectation:string;
+    fcsystemcharge:string;
+    fddate:string;
+    fdfinaldate:string;
+    fiadvancehour:number;
+    ficomplexityid:number;
+    filevelmergetypeid:number;
+    fipriorityid:number;
+    fiproductid:number;
+    firequestid:number;
+    firequesttypeid:number;
+    fistatusid:number;
+}

@@ -8,45 +8,42 @@
                 <input type='text' class="form-control" placeholder='Buscar por nombre de proyecto' (keyup)='updateFilter($event)' />
             </div>
         </div>
-        <ngx-datatable #table class='bootstrap no-detail-row' [rows]="rowsFilter" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
-            <ngx-datatable-column prop="firequestid" name="Folio"></ngx-datatable-column>
+        <ngx-datatable #table class='bootstrap no-detail-row' [rows]="assignments" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
+            [limit]="10">
+            <ngx-datatable-column prop="firequestid" name="Folio" [width]="100"></ngx-datatable-column>
             <ngx-datatable-column prop="fcproyectname" name="Proyecto"></ngx-datatable-column>
             <ngx-datatable-column prop="fccompany" name="Producto"></ngx-datatable-column>
             <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
-            <ngx-datatable-column name="negociousuario" [width] ="300" >
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <select class="form-control" name="ingenieroNegocio" id="ingenieroNegocio" #ingenieroNegocio (change)="changeingenieroNegocio($event.target)" >
-                        <option value="0">Seleccione al Ingeniero de Negocio</option>
-                        <option *ngFor="let row of rowsFilter2" 
-                            [value]="row.fiuserid" [selected]="row.fiuserid === value" >
-                        {{row.fcname}}  {{row.fclastname1}} {{row.fclastname2}} 
+            <ngx-datatable-column prop= "negociousuario" name="Ing. de negocio" [width]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <select class="form-control"  (change)="row['rowchanged']=true;row['negociousuario']=$event.target.value">
+                        <option value="0">Seleccione ing. de negocio</option>
+                        <option *ngFor="let ing of usrBe" [value]="ing.fiuserid" [selected]="ing.fiuserid == value">
+                            {{ing.fcname}} {{ing.fclastname1}} {{ing.fclastname2}}
                         </option>
-                     </select>
-                </ng-template>                
+                    </select>
+                </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="certificadorusuario" [width] ="300">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <select class="form-control" name="ingenieroCertificador" #ingenieroCertificador (change)="changeingenieroCertificador($event.target)">
-                        <option value="">Seleccione al Ingeniero Certificador</option>
-                        <option *ngFor="let row3 of rowsFilter3" 
-                            [value]="row3.fiuserid"  [selected]="row3.fiuserid === value">
-                        {{row3.fcname}}  {{row3.fclastname1}} {{row3.fclastname2}} 
+            <ngx-datatable-column prop="certificadorusuario" name="Ing certificador" [width]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <select class="form-control" (change)="row['rowchanged']=true;row['certificadorusuario']=$event.target.value">
+                        <option value="">Seleccione ing. certificador</option>
+                        <option *ngFor="let ing of usrCe" [value]="ing.fiuserid" [selected]="ing.fiuserid == value">
+                            {{ing.fcname}} {{ing.fclastname1}} {{ing.fclastname2}}
                         </option>
-                     </select>
-                </ng-template>                
+                    </select>
+                </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Avance %">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                        <progressbar class="progress-striped" type="warning" [value]="row['fiadvancehour']">{{row['fiadvancehour']}} %</progressbar>
+                    <progressbar class="progress-striped" type="warning" [value]="row['fiadvancehour']">{{row['fiadvancehour']}} %</progressbar>
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column prop="firequestid" name="Acciones" [width] ="210">
+            <ngx-datatable-column prop="firequestid" name="Acciones">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <button (click)="updateAssignment(row)" class="btn btn-primary btn-sm">Asignar</button>
-                </ng-template>                
+                    <button (click)="updateAssignment(row)" [disabled]="row['negociousuario']==0 || row['certificadorusuario']==0 || !row['rowchanged']" class="btn btn-primary btn-sm">Asignar</button>
+                </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>
-
-

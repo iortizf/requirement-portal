@@ -31,7 +31,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
           this.successframe.show();
           setTimeout(()=>{
             this.successframe.hide();
-          },3000)
+          },4000)
         }
       }
     );

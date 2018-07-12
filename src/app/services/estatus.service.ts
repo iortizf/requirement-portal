@@ -1,52 +1,51 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable} from 'rxjs'
+import { Observable } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Body } from '@angular/http/src/body';
-import { backEndUrl } from '../shared/constants';
+import { backEndUrl, CustomError } from '../shared/constants';
+import { Status } from '../shared/status.model';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
- 
+
 @Injectable({
   providedIn: 'root'
 })
 export class EstatusService {
-  private assignmentUrl= backEndUrl;
-  
+
   constructor(private http: HttpClient) { }
 
 
-  
-    getRequestForStatus(): Observable<Response>{
-    //  console.log("Invocando servicio de getRequestForStatus url="+this.assignmentUrl+"getRequestForStatus");
-      return this.http
-      .get<Response>(this.assignmentUrl+"getRequestForStatus")
-      .pipe(
-          tap((resp:Response) =>{
-            
-          }),
-          catchError( error => Observable.throw(error)
-        )
-        )
-        
-    }
 
-  
-    updateStatusRequest(requestId:string, statusId:string): Observable<Response>{
-  
-    //  console.log("Invocando servicio de updateStatusRequest url="+this.assignmentUrl+"updateStatusRequest?requestId="+requestId+"&statusId="+statusId);
-      return this.http
-      .post<Response>(this.assignmentUrl+"updateStatusRequest?requestId="+requestId+"&statusId="+statusId,"")
+  getRequestForStatus(): Observable<Status[]> {
+
+    return this.http
+      .get<Status[]>(backEndUrl + "getRequestForStatus")
       .pipe(
-          tap((resp:Response) =>{
-            
-          }),
-          catchError( error => Observable.throw(error)
-        )
-        )
-        
-    }
+        map((resp: Response) => {
+          if (resp.statusCode !== 200)
+            throw new CustomError("EstatusService.getRequestForStatus()", resp.errors);
+          else
+            return resp.body;
+        })
+      )
+  }
+
+
+  updateStatusRequest(requestId: number, statusId: number): Observable<void> {
+
+    return this.http
+      .post<void>(backEndUrl + "updateStatusRequest?requestId=" + requestId + "&statusId=" + statusId, "")
+      .pipe(
+        map((resp: Response) => {
+          console.log("Estatus = "+resp.statusCode);
+          if (resp.statusCode !== 201)
+            throw new CustomError("AssignmentService.updateBeAndCertEngineer()", resp.errors);
+        })
+      )
+
+  }
 }

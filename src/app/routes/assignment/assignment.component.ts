@@ -1,11 +1,13 @@
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { AssignmentService } from '../../services/assignment.service';
 import { Assignment } from '../../shared/assignment.model';
 import { User } from '../../shared/user.model';
+import { ModalMessageService } from '../../services/modal-message.service';
+import { MODAL_ERROR, ModalData, MODAL_SUCCESS } from '../../shared/constants';
 
- 
+
 
 @Component({
   selector: 'app-assignment',
@@ -14,89 +16,89 @@ import { User } from '../../shared/user.model';
 })
 export class AssignmentComponent implements OnInit {
 
-  rowsFilter: Assignment[];
+  assignments: Assignment[];
 
   temp = [];
 
-  rowsFilter2 : User[];
-  temp2 = [];
-  rowsFilter3 : User[];
-  temp3 = [];
-
-  valingenieroNegocio;
-  valingenieroCertificador;
-  selectedType;
+  usrBe: User[];
+  usrCe: User[];
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
   constructor(private assignmentService: AssignmentService,
-    public router: Router) { 
-      
-    this.temp = this.rowsFilter;
-    
-    this.temp2 = this.rowsFilter2;
-    this.temp3 = this.rowsFilter3;
- 
+    private modalMessageService:ModalMessageService,
+    public router: Router) {
+    this.temp = this.assignments;
   }
 
   ngOnInit() {
-    this.assignmentService.getAssignment().subscribe( resp =>{
-      this.rowsFilter = resp;
-      this.temp = this.rowsFilter;   
+
+    this.assignmentService.getAssignment().subscribe(assignments => {
+      this.assignments = assignments;
+      this.temp = this.assignments;
     }, error => {
       console.error(error);
     });
 
-    this.assignmentService.getUserByRole(2).subscribe( resp2 =>{
-  
-     this.rowsFilter2 = resp2;
-      this.temp2 = this.rowsFilter2;
-  // console.log("roles"+ JSON.stringify(resp2.body));
+    this.assignmentService.getUserByRole(2).subscribe(usrBe => {
+      this.usrBe = usrBe;
     }, error => {
       console.error(error);
     });
-    this.assignmentService.getUserByRole(3).subscribe( resp3 =>{
-  
-      this.rowsFilter3 = resp3;
-       this.temp3 = this.rowsFilter3;
-   // console.log("roles"+ JSON.stringify(resp2.body));
-     }, error => {
-       console.error(error);
-     });
+
+    this.assignmentService.getUserByRole(3).subscribe(usrCe => {
+      this.usrCe = usrCe;
+    }, error => {
+      console.error(error);
+    });
+
   }
 
-
-  
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
 
     // filter our data
-    const temp = this.temp.filter(function(d) {
-        return d.fcproyectname.toLowerCase().indexOf(val) !== -1 || !val;
+    const temp = this.temp.filter(function (d) {
+      return d.fcproyectname.toLowerCase().indexOf(val) !== -1 || !val;
     });
-
     // update the rows
-    this.rowsFilter = temp;
+    this.assignments = temp;
     // Whenever the filter changes, always go back to the first page
     this.table.offset = 0;
-}
+  }
 
-changeingenieroNegocio(shape) {
+  updateAssignment(rowSelected: any) {
+    console.log("Assigment selected ", rowSelected);
+    if (rowSelected && rowSelected.negociousuario
+      && rowSelected.certificadorusuario) {
+      let updateAssigment = new Assignment();
+      updateAssigment.firequestid = rowSelected.firequestid;
+      updateAssigment.fiuseridbe = rowSelected.negociousuario;
+      updateAssigment.fiuseridce = rowSelected.certificadorusuario;
+      updateAssigment.ficomplexityid = rowSelected.ficomplexityid;
+      updateAssigment.fiproductid = rowSelected.fiproductid;
+      updateAssigment.fipriorityid = rowSelected.fipriorityid;
 
-   console.log(shape.value);
-   this.valingenieroNegocio=shape.value;
- }
+      this.assignmentService.updateBeAndCertEngineer(updateAssigment).subscribe(
+        () => {
+          this.modalMessageService.showModalMessage(
+            new ModalData(MODAL_SUCCESS, ["Asignación actualizada correctamente"], "assignment")
+          );
+        },
+        error => {
+          console.error(error)
+          if (error.errors)
+            this.modalMessageService.showModalMessage(
+              new ModalData(MODAL_ERROR, error.errors, "assignment")
+            );
+          else
+            this.modalMessageService.showModalMessage(
+              new ModalData(MODAL_ERROR, [error.status + "-" + error.message], "assignment")
+            );
+        }
+      );
+    }
 
- changeingenieroCertificador(shape1) {
-
-  console.log(shape1.value);
-  this.valingenieroCertificador=shape1.value;
-}
-
-
-updateAssignment(assignmentSelected:Assignment) {
-        console.log("Haciendo updateBussinessAndCertificatorEngineer");
-        console.log("Assigment selected ",assignmentSelected);        
   }
 
 }

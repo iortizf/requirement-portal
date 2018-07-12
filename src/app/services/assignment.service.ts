@@ -44,4 +44,18 @@ export class AssignmentService {
         })
       )
   }
+
+  updateBeAndCertEngineer(assignment: Assignment): Observable<void> {
+    console.log("Invocando servicio de updateBeAndCertEngineer url=" + backEndUrl + "updateBussinessAndCertificatorEngineer");
+    return this.http
+      .post<void>(backEndUrl + "updateBussinessAndCertificatorEngineer", assignment, httpOptions)
+      .pipe(
+        map((resp: Response) => {
+          console.log("Estatus = "+resp.statusCode);
+          if (resp.statusCode !== 201)
+            throw new CustomError("AssignmentService.updateBeAndCertEngineer()", resp.errors);
+        })
+      )
+
+  }
 }
