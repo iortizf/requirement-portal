@@ -14,19 +14,11 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class MeetingService {
-<<<<<<< HEAD
-  //private url = '10.51.33.63';
-  private url = 'localhost';
-  private addMeetingUrl= 'http://'+this.url+':8080/request/createMeeting';
-  private getRequestUrl = 'http://'+this.url+':8080/request/getRequest';
-  private getMeetingsUrl = 'http://'+this.url+':8080/request/getMeeting';
-  private updateMeetingUrl = 'http://'+this.url+':8080/request/updateMeeting';
-=======
 
   private addMeetingUrl= backEndUrl+'createMeeting';
   private getRequestUrl = backEndUrl+'getRequest';
   private getMeetingsUrl = backEndUrl+'getMeeting';
->>>>>>> 9228508824ddc28eff133146d67454b3e2c47dd1
+  private updateMeetingUrl = backEndUrl+'updateMeeting';
 
   constructor(private http: HttpClient) { }
 

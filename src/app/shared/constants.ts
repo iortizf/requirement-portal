@@ -1,4 +1,4 @@
-export const backEndUrl = 'http://10.51.33.63:8081/request/';
+export const backEndUrl = 'http://10.51.145.32:8080/request/';
 export const MODAL_SUCCESS = "success";
 export const MODAL_ERROR = "error";
 export class ModalData{
