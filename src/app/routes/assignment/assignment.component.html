@@ -1,10 +1,10 @@
 <div class="card card-default">
     <div class="card-header">
-        <div class="card-title">Publicación de un proyecto</div>
+        <div class="card-title"><h3>Asignación de proyectos</h3></div>
     </div>
     <div class="card-body">
-        <div class="row mb-4">
-            <div class="col-lg-4">
+        <div class="row mb-3">
+            <div class="col">
                 <input type='text' class="form-control" placeholder='Buscar por nombre de proyecto' (keyup)='updateFilter($event)' />
             </div>
         </div>
@@ -16,9 +16,9 @@
             <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
             <ngx-datatable-column prop= "negociousuario" name="Ing. de negocio" [width]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <select class="form-control"  (change)="row['rowchanged']=true;row['negociousuario']=$event.target.value">
+                    <select class="form-control" [value] = "value" (change)="row['rowchanged']=true;row['negociousuario']=$event.target.value">
                         <option value="0">Seleccione ing. de negocio</option>
-                        <option *ngFor="let ing of usrBe" [value]="ing.fiuserid" [selected]="ing.fiuserid == value">
+                        <option *ngFor="let ing of usrBe" [value]="ing.fiuserid">
                             {{ing.fcname}} {{ing.fclastname1}} {{ing.fclastname2}}
                         </option>
                     </select>
@@ -26,9 +26,9 @@
             </ngx-datatable-column>
             <ngx-datatable-column prop="certificadorusuario" name="Ing certificador" [width]="200">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <select class="form-control" (change)="row['rowchanged']=true;row['certificadorusuario']=$event.target.value">
-                        <option value="">Seleccione ing. certificador</option>
-                        <option *ngFor="let ing of usrCe" [value]="ing.fiuserid" [selected]="ing.fiuserid == value">
+                    <select class="form-control" [value]="value" (change)="row['rowchanged']=true;row['certificadorusuario']=$event.target.value">
+                        <option value="0">Seleccione ing. certificador</option>
+                        <option *ngFor="let ing of usrCe" [value]="ing.fiuserid">
                             {{ing.fcname}} {{ing.fclastname1}} {{ing.fclastname2}}
                         </option>
                     </select>

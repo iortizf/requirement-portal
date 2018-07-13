@@ -1,10 +1,10 @@
 <div class="card card-default">
     <div class="card-header">
-        <div class="card-title">Publicación de un proyecto</div>
+        <div class="card-title"><h3>Estatus de proyectos</h3></div>
     </div>
     <div class="card-body">
-        <div class="row mb-4">
-            <div class="col-lg-4">
+        <div class="row mb-3">
+            <div class="col">
                 <input type='text' class="form-control" placeholder='Buscar por nombre de proyecto' (keyup)='updateFilter($event)' />
             </div>
         </div>
@@ -20,9 +20,9 @@
             <ngx-datatable-column prop="fddate" name="Fecha Inicio"></ngx-datatable-column>
             <ngx-datatable-column prop="fistatusid" name="Estatus" [width]="300">
                 <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
-                    <select class="form-control" (change)="row['statusChanged']=true;row['fistatusid']=$event.target.value">
+                    <select class="form-control" [value]="value" (change)="row['statusChanged']=true;row['fistatusid']=$event.target.value">
                         <option value="0">Selecciona el estatus </option>
-                        <option *ngFor='let s of status' [value]="s.fistatusid" [selected]="s.fistatusid === value">{{s.fistatus}}</option>
+                        <option *ngFor='let s of status' [value]="s.fistatusid">{{s.fistatus}}</option>
                     </select>
                 </ng-template>
             </ngx-datatable-column>
