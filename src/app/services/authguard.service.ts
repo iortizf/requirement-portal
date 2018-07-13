@@ -10,6 +10,7 @@ export class AuthguardService implements CanActivate {
   
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     if (localStorage.getItem('currentUser')) {
+      console.log("entrando a Auth service true");
         return true;
     }
     // Si el usuario no está logeado se redirecciona a la página de login

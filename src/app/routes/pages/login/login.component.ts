@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
     console.log("Usuario="+data.employId +" Contraseña="+data.pwd);
     this.loginService.login(data.employId.trim(), data.pwd.trim()).subscribe(
       res => {
-        this.router.navigate(["tracing","888899"]);
+        this.router.navigate(["tracing"]);
       },
       err => {
         console.log("Error en login");

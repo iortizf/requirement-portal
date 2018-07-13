@@ -1,45 +1,47 @@
 <div class="card card-default">
     <div class="card-header">
-        <div class="card-title">Publicación de un proyecto</div>
+        <div class="card-title"><h3>Asignación de proyectos</h3></div>
     </div>
     <div class="card-body">
-        <div class="row mb-4">
-            <div class="col-lg-4">
+        <div class="row mb-3">
+            <div class="col">
                 <input type='text' class="form-control" placeholder='Buscar por nombre de proyecto' (keyup)='updateFilter($event)' />
             </div>
         </div>
-        <ngx-datatable #table class='bootstrap no-detail-row' [rows]="rowsFilter" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
-            <ngx-datatable-column prop="id" name="Folio"></ngx-datatable-column>
-            <ngx-datatable-column prop="proyect" name="Proyecto"></ngx-datatable-column>
-            <ngx-datatable-column prop="product" name="Producto"></ngx-datatable-column>
-            <ngx-datatable-column prop="applicant" name="Solicitante"></ngx-datatable-column>
-            <ngx-datatable-column name="Ing. Negocio" [width] ="300" >
-                <ng-template ngx-datatable-cell-template >
-                    <select name="ingenieroNegocio">
-                        <option value="">Seleccione al Ingeniero de Negocio</option>
-                        <option value="alison">Alison Guadalupe Gonzalez Esquivel</option>
-                        <option value="jocsan">Jocsan Esaú Benito Luna</option>
-                        <option value="miguel">Miguel Angel Jimenez Huerta</option>
-                        <option value="nayeli">Nayeli Jannethe Hernandez Ramirez</option>
-                     </select>
-                </ng-template>                
+        <ngx-datatable #table class='bootstrap no-detail-row' [rows]="assignments" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
+            [limit]="10">
+            <ngx-datatable-column prop="firequestid" name="Folio" [width]="100"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcproyectname" name="Proyecto"></ngx-datatable-column>
+            <ngx-datatable-column prop="fccompany" name="Producto"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
+            <ngx-datatable-column prop= "negociousuario" name="Ing. de negocio" [width]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <select class="form-control" [value] = "value" (change)="row['rowchanged']=true;row['negociousuario']=$event.target.value">
+                        <option value="0">Seleccione ing. de negocio</option>
+                        <option *ngFor="let ing of usrBe" [value]="ing.fiuserid">
+                            {{ing.fcname}} {{ing.fclastname1}} {{ing.fclastname2}}
+                        </option>
+                    </select>
+                </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Ing. Certificador" [width] ="300">
-                <ng-template ngx-datatable-cell-template >
-                    <select name="ingenieroNegocio">
-                        <option value="">Seleccione al Ingeniero Certificador</option>
-                        <option value="alison">Alison Guadalupe Gonzalez Esquivel</option>
-                        <option value="jocsan">Jocsan Esaú Benito Luna</option>
-                        <option value="miguel">Miguel Angel Jimenez Huerta</option>
-                        <option value="nayeli">Nayeli Jannethe Hernandez Ramirez</option>
-                     </select>
-                </ng-template>                
+            <ngx-datatable-column prop="certificadorusuario" name="Ing certificador" [width]="200">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <select class="form-control" [value]="value" (change)="row['rowchanged']=true;row['certificadorusuario']=$event.target.value">
+                        <option value="0">Seleccione ing. certificador</option>
+                        <option *ngFor="let ing of usrCe" [value]="ing.fiuserid">
+                            {{ing.fcname}} {{ing.fclastname1}} {{ing.fclastname2}}
+                        </option>
+                    </select>
+                </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column prop="progress" name="Avance">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                    </div>
+            <ngx-datatable-column name="Avance %">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <progressbar class="progress-striped" type="warning" [value]="row['fiadvancehour']">{{row['fiadvancehour']}} %</progressbar>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="firequestid" name="Acciones">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button (click)="updateAssignment(row)" [disabled]="row['negociousuario']==0 || row['certificadorusuario']==0 || !row['rowchanged']" class="btn btn-primary btn-sm">Asignar</button>
                 </ng-template>
             </ngx-datatable-column>
         </ngx-datatable>

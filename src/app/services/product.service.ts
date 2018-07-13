@@ -4,6 +4,7 @@ import { Observable, of} from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Product } from "../shared/catalog.model";
+import { backEndUrl } from '../shared/constants';
 
 
 const httpOptions = {
@@ -15,7 +16,7 @@ const httpOptions = {
 })
 export class ProductService {
 
-  private loginUrl= 'http://10.51.145.32:8080/request/';
+  private loginUrl= backEndUrl;
   
   constructor(private http: HttpClient) { }
   

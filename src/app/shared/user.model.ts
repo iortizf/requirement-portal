@@ -1,4 +1,5 @@
 export class User{
+    firoleid:number;
     fiuserid:number;
     fcname:string;
     fclastname1:string;

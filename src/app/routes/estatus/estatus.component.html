@@ -1,0 +1,37 @@
+<div class="card card-default">
+    <div class="card-header">
+        <div class="card-title"><h3>Estatus de proyectos</h3></div>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col">
+                <input type='text' class="form-control" placeholder='Buscar por nombre de proyecto' (keyup)='updateFilter($event)' />
+            </div>
+        </div>
+        <ngx-datatable #table class='bootstrap no-detail-row' [rows]="statusList" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'"
+            [limit]="10">
+            <ngx-datatable-column prop="firequestid" name="Folio" [width]="140"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcproyectname" name="Proyecto"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcbusisnessengineer" name="Ing. de Negocio"></ngx-datatable-column>
+            <ngx-datatable-column prop="fccertificatedengineer" name="Ing. Certificador"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcproductowner" name="Solicitante"></ngx-datatable-column>
+            <ngx-datatable-column prop=" " name="Prioridad"></ngx-datatable-column>
+            <ngx-datatable-column prop="ficomplexityid" name="Complejidad"></ngx-datatable-column>
+            <ngx-datatable-column prop="fddate" name="Fecha Inicio"></ngx-datatable-column>
+            <ngx-datatable-column prop="fistatusid" name="Estatus" [width]="300">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <select class="form-control" [value]="value" (change)="row['statusChanged']=true;row['fistatusid']=$event.target.value">
+                        <option value="0">Selecciona el estatus </option>
+                        <option *ngFor='let s of status' [value]="s.fistatusid">{{s.fistatus}}</option>
+                    </select>
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column prop="firequestid" name="Acciones" [width]="210">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    <button class="btn btn-primary btn-sm" [disabled]="row['fistatusid']==0 || !row['statusChanged']"
+                     (click)="updateStatusRequest(row['firequestid'],row['fistatusid'])">Guardar</button>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+</div>

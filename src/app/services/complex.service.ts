@@ -4,6 +4,7 @@ import { Observable} from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Complex } from "../shared/catalog.model";
+import { backEndUrl } from '../shared/constants';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json'})
@@ -14,7 +15,7 @@ const httpOptions = {
 })
 export class ComplexService {
 
-  private loginUrl = 'http://10.51.145.32:8080/request/';
+  private loginUrl = backEndUrl;
 
   constructor(private http: HttpClient) { }
 

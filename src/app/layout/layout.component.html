@@ -1,5 +1,58 @@
 <app-header></app-header>
-<div class="container py-5">
+<div class="container-fluid py-5">
     <router-outlet></router-outlet>
 </div>
 
+<div mdbModal #errorframe="mdb-modal" class="modal fade bottom" id="frameModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: true, ignoreBackdropClick: true}">
+    <div class="modal-dialog modal-frame modal-bottom  modal-notify modal-danger" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="padding:0;">
+                <div class="row">
+                    <div class="col-md-1">
+                        <div class="text-center">
+                            <i class="fa fa-times fa-4x mb-3 animated rotateIn"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div>
+                            <h3>Ooops! Algo salió mal</h3>
+                            <ul>
+                                <li *ngFor="let message of messages" >{{message}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col text-center">
+                        <button type="button" class="btn btn-outline-danger btn-sm pull-right mt-4" (click)="navigate()">Cerrar</button>
+                        <button type="button" class="btn btn-outline-danger btn-sm pull-right mt-4">Reportar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div mdbModal #successframe="mdb-modal" class="modal fade bottom" id="frameModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: false}">
+    <div class="modal-dialog modal-frame modal-bottom modal-notify modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:0;">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="text-left">
+                            <i style="color: white" class="fa fa-check fa-4x ml-3 animated rotateIn"></i>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="text-center">
+                            <h4 class="mt-3" style="color: white">{{singleMessage}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <button type="button" class="close" style="position:  absolute;top: 1.2rem;padding:  0;margin:  0;" data-dismiss="modal"
+                    aria-label="Close" (click)="successframe.hide()">
+                    <span aria-hidden="true" class="white-text">×</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,36 +1,24 @@
 <div class="card card-default">
     <div class="card-header">
-        <div class="card-title">Seguimiento de proyecto</div>
+        <div class="card-title"><h3>Seguimiento de proyecto</h3></div>
     </div>
     <div class="card-body">
-        <div class="row mb-4">
-            <div class="col-lg-4">
+        <div class="row mb-3">
+            <div class="col">
                 <input type='text' class="form-control" placeholder='Buscar por ing. de negocio' (keyup)='updateFilter($event)' />
             </div>
         </div>
         <ngx-datatable #table class='bootstrap no-detail-row' [rows]="rowsFilter" [columnMode]="'force'" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10">
-            <ngx-datatable-column prop="ing" name="Ing. Negocio" [width]="200"></ngx-datatable-column>
-            <ngx-datatable-column prop="pending" name="Pendiente">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                    </div>
+            <ngx-datatable-column name="Ing. de negocio">
+                <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+                    {{row['fcname']+' '+ row['fclastname1']+' '+ row['fclastname2']}}
                 </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column prop="progress" name="Avance">
-                <ng-template ngx-datatable-cell-template let-value="value">
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
-                    </div>
-                </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column prop="fAtentions" name="Folios Totales"></ngx-datatable-column>
-            <ngx-datatable-column prop="ftotal" name="Folios Totales"></ngx-datatable-column>
-            <ngx-datatable-column prop="disp" name="Disponibilidad de asignación"></ngx-datatable-column>
-            <ngx-datatable-column prop="strategy" name="Certificación estrategica"></ngx-datatable-column>
-            <ngx-datatable-column prop="cancel" name="Cancelado"></ngx-datatable-column>
-            <ngx-datatable-column prop="postponed" name="Pospuesto"></ngx-datatable-column>
-            <ngx-datatable-column prop="finished" name="Terminado"></ngx-datatable-column>
+            <ngx-datatable-column prop="fitotalfolio" name="Folios Totales"></ngx-datatable-column>
+            <ngx-datatable-column prop="fiasignationmax" name="Disponibilidad de asignación" [width]="200"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcCancelados" name="Cancelado"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcPospuestos" name="Pospuesto"></ngx-datatable-column>
+            <ngx-datatable-column prop="fcTerminados" name="Terminado"></ngx-datatable-column>
         </ngx-datatable>
     </div>
 </div>

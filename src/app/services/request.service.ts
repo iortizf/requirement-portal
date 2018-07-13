@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
+import { backEndUrl, CustomError } from '../shared/constants';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -16,7 +18,7 @@ const httpOptions = {
 })
 export class RequestService {
 
-  private loginUrl = 'http://10.51.145.32:8080/request/';
+  private loginUrl = backEndUrl;
 
   private submitedSource = new Subject<String>();
 
@@ -31,16 +33,16 @@ export class RequestService {
   }
 
   newRequest(newReq: NewRequest) : Observable<boolean>{
+    console.log("Newn Request Data", newReq);
     console.log("Invocando servicio de login url=" + this.loginUrl+"postNewRequest");
     return this.http.post<boolean>(this.loginUrl + "postNewRequest", newReq, httpOptions)
       .pipe(
-        tap((resp: Response) => {
+        map((resp: Response) => {
           console.log(resp);
           if (resp.statusCode != 201) {//Validate error
-            Observable.throw("Error al guardar los datos \n Detalles \n " + resp.errors.toString() );
-          }
-        }),
-        catchError(error => Observable.throw(error))
+            throw new CustomError("RequestService.newRequest()", resp.errors);
+          }          
+        })
       )
   }
 }
