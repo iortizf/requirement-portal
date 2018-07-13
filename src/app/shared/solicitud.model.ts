@@ -17,6 +17,8 @@ export class Solicitud{
     fcproductowner:string;
     fcsystemcharge:string;
     fcbusinessowner:string;
+    fcbusisnessengineer: string;
+    fccertificatedengineer: string;
     fiadvancehour:number;
     
 }

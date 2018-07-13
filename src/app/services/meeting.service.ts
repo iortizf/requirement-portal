@@ -13,10 +13,12 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class MeetingService {
-
-  private addMeetingUrl= 'http://10.51.145.32:8080/request/createMeeting';
-  private getRequestUrl = 'http://10.51.145.32:8080/request/getRequest';
-  private getMeetingsUrl = 'http://10.51.145.32:8080/request/getMeeting';
+  //private url = '10.51.33.63';
+  private url = 'localhost';
+  private addMeetingUrl= 'http://'+this.url+':8080/request/createMeeting';
+  private getRequestUrl = 'http://'+this.url+':8080/request/getRequest';
+  private getMeetingsUrl = 'http://'+this.url+':8080/request/getMeeting';
+  private updateMeetingUrl = 'http://'+this.url+':8080/request/updateMeeting';
 
   constructor(private http: HttpClient) { }
 
@@ -32,6 +34,24 @@ export class MeetingService {
             alert("meeting creado correctamente");
           }else{
             Observable.throw("Error al crear la reunion");
+          }          
+        }),
+        catchError( error => Observable.throw(error))
+      )
+  } 
+
+  updateMeeting(meeting:Meeting): Observable<Response> {
+    console.log("Invocando servicio de updateMeeting="+this.updateMeetingUrl);
+    let body = JSON.stringify(meeting);
+    return this.http
+    .post<Response>(this.updateMeetingUrl, body, httpOptions)
+    .pipe(
+        tap((resp:Response) =>{
+          console.log(resp);
+          if(resp.statusCode == 201){//Good login
+            alert("meeting actualizado correctamente");
+          }else{
+            Observable.throw("Error al actualizar la reunion");
           }          
         }),
         catchError( error => Observable.throw(error))
@@ -56,16 +76,16 @@ export class MeetingService {
       )
   } 
 
-  getMeetings(): Observable<Response> {
+  getMeetings(): Observable<Meeting[]> {
     console.log("Invocando servicio de getMeetings="+this.getMeetingsUrl);
     return this.http
-    .get<Response>(this.getMeetingsUrl, httpOptions)
+    .get<Meeting[]>(this.getMeetingsUrl, httpOptions)
     .pipe(
-        tap((resp:Response) =>{
+        map((resp:Response) =>{
           console.log(resp);
           if(resp.statusCode == 200){//Good login
             console.log("Reuniones cargadas correctamente");
-            localStorage.setItem('meetings', JSON.stringify(resp.body));
+            return resp.body;
           }else{
             Observable.throw("Error al cargar las reuniones");
           }          
