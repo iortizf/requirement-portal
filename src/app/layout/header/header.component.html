@@ -14,7 +14,7 @@
         <!-- Links -->
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" routerLinkActive="active" *ngFor="let menu of menus" >
-                <a  *ngIf="menu.hide" href class="nav-link waves-light" [routerLink]="['/'+menu.link]" mdbWavesEffect>{{menu.text}}</a>
+                <a  *ngIf="menu.hide" href class="nav-link waves-light" [routerLink]="['/'+menu.link]">{{menu.text}}</a>
             </li>
 
         </ul>
@@ -25,12 +25,12 @@
             </span>
             <!-- Dropdown -->
             <li class="nav-item dropdown" dropdown>
-                <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light" mdbWavesEffect>
+                <a dropdownToggle type="button" class="nav-link dropdown-toggle waves-light">
                     <i class="fa fa-user"></i>
                 </a>
                 <div *dropdownMenu class="dropdown-menu dropdown dropdown-primary" role="menu">
-                    <a class="dropdown-item waves-light" mdbWavesEffect href="#">Perfil</a>
-                    <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/login">Salir</a>
+                    <a class="dropdown-item waves-light" href="#">Perfil</a>
+                    <a class="dropdown-item waves-light" routerLink="/login">Salir</a>
                 </div>
             </li>
         </ul>

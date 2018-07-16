@@ -1,24 +1,19 @@
-import { Component, OnInit, ChangeDetectionStrategy,ViewChild,
-  TemplateRef } from '@angular/core';
-import { CalendarEvent,
-  CalendarEventTimesChangedEvent } from 'angular-calendar';
-import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarDateFormatter } from 'angular-calendar';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MeetingService } from '../../services/meeting.service';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { Meeting } from '../../shared/meeting.model';
-import { stringify } from '@angular/core/src/util';
-import { Solicitud } from '../../shared/solicitud.model';
 import { DatePipe } from '@angular/common';
-import { colors } from './colors';
-import { addDays, startOfDay, endOfDay } from 'date-fns';
-import { Subject } from 'rxjs';
-
+import { Request } from '../../shared/request.model';
+import { Observable } from 'rxjs';
+import { ModalMessageService } from '../../services/modal-message.service';
+import { MODAL_SUCCESS, ModalData, MODAL_ERROR } from '../../shared/constants';
 
 @Component({
   selector: 'app-activity',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.scss']
+  templateUrl: './activity.component.html'
 })
 export class ActivityComponent implements OnInit {
 
@@ -26,40 +21,23 @@ export class ActivityComponent implements OnInit {
 
   viewDate: Date = new Date();
 
-  events: CalendarEvent[] = [];
+  events$: Observable<Array<CalendarEvent<{ meeting: Meeting }>>>;
 
   @ViewChild('frame') frameModal;
 
-  modalData: {
-    action: string;
-    event: CalendarEvent;
-  };
-
-  refresh: Subject<any> = new Subject();
-
-  eventTimesChanged({
-    event,
-    newStart,
-    newEnd
-  }: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.refresh.next();
-  }
-
-  clickedDate: Date;
-
   newActivityForm: FormGroup;
 
-  solicitudes = new Array<Solicitud>();
+  requests: Request[];
 
-  datepipe = new DatePipe('en-US'); 
+  datepipe = new DatePipe('es-MX');
 
-  reuniones = new Array<Meeting>();
+  meetings = new Array<Meeting>();
+  meetingSelected: Meeting;
 
   constructor(
     private fb: FormBuilder,
     private meetingService: MeetingService,
+    private modalMessageService:ModalMessageService,
     public router: Router
   ) {
     this.newActivityForm = fb.group({
@@ -68,64 +46,67 @@ export class ActivityComponent implements OnInit {
       firequestid: [null, Validators.required],
       fcinterviewer: [null, Validators.required],
       fdfinaldate: [null, Validators.required],
-      fibinnaclemeetingid:[null, Validators.required],
+      fibinnaclemeetingid: [null, Validators.required],
     });
   }
 
   @ViewChild('content') public contentModal;
-  public dateSelected: Date;
-  public dateString: string;
-  public title: string;
-  public descripcion: string;
 
-  show(dateSelected:Date,title:string, descripcion:string){
-      this.newActivityForm.reset();
-      this.title = title;
-      this.descripcion = descripcion;
-      this.dateSelected = dateSelected;
-      this.contentModal.show();
-      this.dateString = dateSelected.toDateString();
+  dateSelected: Date;
+
+  show(dateSelected: Date) {
+    console.log("Maaaaaaadres", dateSelected);
+    this.newActivityForm.reset();
+    this.dateSelected = dateSelected;
+    this.contentModal.show();
+    this.meetingSelected = undefined;
   }
 
-  private mdlSampleIsOpen : boolean = false;
-  private openModal(open : boolean) : void {
-    this.mdlSampleIsOpen = open;
+  showMessage(type:boolean, error:any){
+    if(type)
+          this.modalMessageService.showModalMessage(
+            new ModalData(MODAL_SUCCESS, ["Se agregó la actividad correctamente"], "activity")
+          );
+    else{
+      console.error(error)
+      if (error.errors)
+        this.modalMessageService.showModalMessage(
+          new ModalData(MODAL_ERROR, error.errors, "activity")
+        );
+      else
+        this.modalMessageService.showModalMessage(
+          new ModalData(MODAL_ERROR, [error.status + "-" + error.message], "activity")
+        );
+    }
   }
 
+  addMeeting(meeting: any) {
 
-  addMeeting(meeting: Meeting) {
+    meeting.fddate = this.datepipe.transform(new Date().toDateString(), 'MM/dd/yyyy');
+    meeting.fdscheduledate = this.datepipe.transform(this.dateSelected, 'MM/dd/yyyy');
+    meeting.fdfinaldate = this.datepipe.transform(meeting.fdfinaldate, 'MM/dd/yyyy');
 
-    const now = Date.now();
-    
-    var date = new Date().toDateString();
-    
-    let latest_date =this.datepipe.transform(date, 'MM/dd/yyyy');
-
-    let solicitud = this.solicitudes.find(sol=>sol.firequestid == meeting.firequestid);
-
-    meeting.fddate = latest_date;
-    meeting.fcbusinessengineer = solicitud.fcbusisnessengineer;
-    meeting.fdscheduledate = this.datepipe.transform(this.dateString,'MM/dd/yyyy');
-    meeting.fibinnaclemeetingid = 3;
-
-    if(meeting.fibinnaclemeetingid != null){
+    if (meeting.fibinnaclemeetingid != null) {
       console.log("Modificar");
       this.meetingService.updateMeeting(meeting).subscribe(
         res => {
           this.contentModal.hide();
+          this.showMessage(true, null);
         },
-        err => {
-          console.log("Error en login");
+        error => {
+          this.showMessage(false, error);
         }
       );
-    }else{
-      console.log("Agregar");
+    } else {
+      console.log("Agregar", meeting);
       this.meetingService.createMeeting(meeting).subscribe(
         res => {
           this.contentModal.hide();
+          this.showMessage(true, null);
         },
         err => {
           console.log("Error en login");
+          this.showMessage(false, err);
         }
       );
     }
@@ -133,77 +114,34 @@ export class ActivityComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.meetingService.loadRequest().subscribe(
-      res => {
-        //console.log( localStorage.getItem("solicitudes") );
-        //type Solicitudes = Array<Solicitud>;
-        this.solicitudes = JSON.parse(localStorage.getItem("solicitudes") );
-        console.log("prueba de fuego:"+this.solicitudes[0].firequestid);
-      },
-      err => {
-        console.log("Error en login");
-        //this.loginError = true;
-      }
-    );
- 
-    this.meetingService.getMeetings().subscribe(
-      res => {
-        //console.log( localStorage.getItem("solicitudes") );
-        this.reuniones = res;
-        var obj: Array<any> = [];
-        this.reuniones.forEach(element => {
-         
-          obj.push({
-            title: element.fccomments,
-            color: colors.yellow, 
-            start: new Date(element.fdscheduledate),
-            id: element.fibinnaclemeetingid
-          })
-          // console.log("Reunion "+element.fibinnaclemeetingid+"*"+
-          // new Date(element.fdscheduledate)+element.fdscheduledate);
-          // console.log("es");
-        });
-        
-        this.events = obj;
-        //this.refresh.next();
-
-        console.log("MeetingService:"+res);
-        //console.log("prueba de fuego:"+new Date(reuniones[0].fdscheduledate));
-        
-      },
-      err => {
-        console.log("Error en login");
-        //this.loginError = true;
+      requests => {
+        this.requests = requests;
       }
     );
 
-    //this.newActivityForm.patchValue({fccomments:"Comentarios"});
-
+    this.events$ = this.meetingService.getMeetings();
   }
 
-  get f(){return this.newActivityForm.controls;}
-  
-  handleEvent(action: string, event: CalendarEvent): void {
-    //this.modalData = { event, action };
-    
-    //this.frameModal.show();
+  get f() { return this.newActivityForm.controls; }
 
-    this.title = "Actividad";
-    this.descripcion = "Descripcion";
+  handleEvent(event: CalendarEvent): void {
+
     this.dateSelected = event.start;
+    this.meetingSelected = event.meta.meeting;
     this.contentModal.show();
-    this.dateString = event.start.toDateString();
 
-    var reunionModificada: Meeting;
-    reunionModificada = this.reuniones.
-          filter(reunion => reunion.fibinnaclemeetingid == event.id)[0];
-    console.log("FisrtBinacle"+reunionModificada.fibinnaclemeetingid);
+    console.log("META", event.meta);
+
+    let reunionModificada = event.meta.meeting;
+
     this.newActivityForm = this.fb.group({
-      firequestid : [reunionModificada.firequestid],
-      fccomments:reunionModificada.fccomments,
-      fcinterviewer:reunionModificada.fcinterviewer,
-      fdfinaldate:this.datepipe.transform(event.start.toDateString(), 'MM/dd/yyyy'),
-      fibinnaclemeetingid:reunionModificada.fibinnaclemeetingid,
+      firequestid: [reunionModificada.firequestid],
+      fccomments: reunionModificada.fccomments,
+      fcinterviewer: reunionModificada.fcinterviewer,
+      fdfinaldate: new Date(this.meetingSelected.fdfinaldate),
+      fibinnaclemeetingid: reunionModificada.fibinnaclemeetingid,
     });
 
   }

@@ -13,6 +13,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   loginError:boolean=false;
   hide:boolean=true;
+  submitted:boolean;
  
   constructor(
     private fb: FormBuilder,
@@ -45,6 +46,7 @@ export class LoginComponent implements OnInit {
   login(data) {
     console.log("Haciendo login");
     console.log("Usuario="+data.employId +" Contraseña="+data.pwd);
+    this.submitted = true;
     this.loginService.login(data.employId.trim(), data.pwd.trim()).subscribe(
       res => {
         this.router.navigate(["tracing"]);

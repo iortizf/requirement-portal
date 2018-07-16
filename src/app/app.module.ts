@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule , NO_ERRORS_SCHEMA} from '@angular/core';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { NgModule , NO_ERRORS_SCHEMA, LOCALE_ID} from '@angular/core';
+import { ModalModule, NavbarModule, DropdownModule } from 'angular-bootstrap-md';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule }    from '@angular/common/http';
@@ -23,7 +23,6 @@ import { LoginComponent } from './routes/pages/login/login.component';
 import { PublishComponent } from './routes/publish/publish.component';
 import { RequestComponent } from './routes/request/request.component';
 import { TracingComponent } from './routes/tracing/tracing.component';
-import { RegisterComponent } from './routes/pages/register/register.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { EstatusComponent } from './routes/estatus/estatus.component';
 import { ApplicantInfComponent } from './routes/request/applicant-inf/applicant-inf.component';
@@ -33,6 +32,10 @@ import { ProyectDescComponent } from './routes/request/proyect-desc/proyect-desc
 import { PublishDocumentComponent } from './routes/publish/publish-document/publish-document.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { PublishHomeComponent } from './routes/publish/publish-home/publish-home.component';
+
+import localeFr from '@angular/common/locales/es-MX';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -46,7 +49,6 @@ import { PublishHomeComponent } from './routes/publish/publish-home/publish-home
     PublishComponent,
     RequestComponent,
     TracingComponent,
-    RegisterComponent,
     FooterComponent,
     EstatusComponent,
     ApplicantInfComponent,
@@ -68,10 +70,12 @@ import { PublishHomeComponent } from './routes/publish/publish-home/publish-home
     ProgressbarModule.forRoot(),    
     BsDatepickerModule.forRoot(),
     RouterModule.forRoot(routes),
-    MDBBootstrapModule.forRoot(),
+    ModalModule.forRoot(),
+    DropdownModule.forRoot(),
+    NavbarModule,
     CalendarModule.forRoot()
   ],
-  providers: [],
+  providers: [ { provide: LOCALE_ID, useValue: 'es-MX' } ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 })

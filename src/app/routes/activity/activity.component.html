@@ -1,124 +1,71 @@
 <div class="card card-default">
     <div class="card-header">
-    <div class="card-title">Bitácora de actividades</div>
+        <div class="card-title"><h3>Bitácora de actividades</h3></div>
         * Da clik en el día del calendario para agregar tu actividad
     </div>
-    
+
     <div class="card-body">
-        <mwl-demo-utils-calendar-header
-        [(view)]="view"
-        [(viewDate)]="viewDate">
+
+        <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
         </mwl-demo-utils-calendar-header>
-        
-        <div class="alert alert-info">
-        Click on a day on the view.
-        <strong *ngIf="clickedDate">You clicked on this day: {{ clickedDate | date:'medium' }}</strong>
-        </div>
-        
-        <div [ngSwitch]="view">
-        <mwl-calendar-month-view
-            *ngSwitchCase="'month'"
-            [viewDate]="viewDate"
-            [events]="events"
-            (dayClicked)="show($event.day.date,'Actividad','Descripcion')"
-            (eventClicked)="handleEvent('Clicked', $event.event)">
-        </mwl-calendar-month-view>
-        <mwl-calendar-week-view
-            *ngSwitchCase="'week'"
-            [viewDate]="viewDate"
-            [events]="events"
-            (dayHeaderClicked)="show($event.day.date, 'Actividad','Descripcion')"
-            (eventClicked)="handleEvent('Clicked', $event.event)">
-            
-        </mwl-calendar-week-view>
-        <mwl-calendar-day-view
-            *ngSwitchCase="'day'"
-            [viewDate]="viewDate"
-            [events]="events"
-            (eventClicked)="handleEvent('Clicked', $event.event)">
-        </mwl-calendar-day-view>
-        </div>
 
-
+        <div *ngIf="events$ | async; let events">
+            <div [ngSwitch]="view">
+                <mwl-calendar-month-view *ngSwitchCase="'month'" [locale]="'es-MX'" [viewDate]="viewDate" [events]="events" (dayClicked)="show($event.day.date)"
+                    (eventClicked)="handleEvent($event.event)">
+                </mwl-calendar-month-view>                
+            </div>
+        </div>
     </div>
 </div>
 
-<div mdbModal #content="mdb-modal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-      <form [formGroup]="newActivityForm" (ngSubmit)="addMeeting(newActivityForm.value)">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h4 class="modal-title" id="exampleModalLabel">Agrega una nueva Actividad para el día {{ dateString }}</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="content.hide()">
-                  <span aria-hidden="true">×</span>
-              </button>
-          </div>
-          <div class="modal-body">
-              
-            <div class="form-row">
-
-                <div class="form-group col-md-12">
-
-                    <label for="firequestid">Peticion</label>
-
-                    <select id="firequestid" formControlName="firequestid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firequestid.errors }"> 
-
-                    <option [value]="p.firequestid" *ngFor="let p of solicitudes" >{{ p.fcproyectname}}</option>
-
-                    </select>
-
+<div mdbModal #content="mdb-modal" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <form [formGroup]="newActivityForm" (ngSubmit)="addMeeting(newActivityForm.value)">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Actividad {{ dateSelected | date: 'fullDate' }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="content.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
                 </div>
-
-            </div>
-
-            
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="fccomments">Comentarios</label>
-                </div> 
-                <div class="form-group col-md-12">
-                    <textarea type="text" id="fccomments" formControlName="fccomments" class="md-textarea"></textarea>
-                </div>    
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="fcinterviewer">Entrevistado</label>
-                </div> 
-                <div class="form-group col-md-12">
-                    <input type="text" class="form-control" id="fcinterviewer" formControlName="fcinterviewer" >
-                </div>    
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label for="fdfinaldate">Fecha de terminación</label>
-                </div> 
-                <div class="form-group col-md-12">
-                    <input type="text" class="form-control" id="fdfinaldate" formControlName="fdfinaldate" >
-                </div>    
-            </div>
-              
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-secondary waves-light" data-dismiss="modal" (click)="content.hide()" mdbWavesEffect>Close</button>
-              <button type="submit"class="btn btn-primary waves-light" mdbWavesEffect>Guardar</button>
-          </div>
-        
-      </div>
-      </form>
-  </div>
-</div>
-
-<div mdbModal #frame="mdb-modal" class="modal fade bottom" id="frameModalBottom" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
-    <div class="modal-dialog modal-frame modal-bottom" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row px-4">
-                    <p class="pt-1 pr-2">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit nisi quo provident fugiat reprehenderit nostrum quos..</p>
-                    <button type="button" class="btn btn-secondary waves-light" data-dismiss="modal" (click)="frame.hide()" mdbWavesEffect>Close</button>
-                    <button type="button" class="btn btn-primary waves-light" mdbWavesEffect>Save changes</button>
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="firequestid">Peticion</label>
+                            <select id="firequestid" formControlName="firequestid" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.firequestid.errors }">
+                                <option [value]="p.firequestid" *ngFor="let p of requests">{{ p.fcproyectname}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="fccomments">Comentarios</label>
+                            <textarea type="text"  class="form-control" id="fccomments" 
+                            formControlName="fccomments"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="fcinterviewer">Entrevistado</label>
+                            <input type="text" autocomplete="off" class="form-control" id="fcinterviewer" 
+                            formControlName="fcinterviewer">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="fdfinaldate">Fecha de terminación</label>
+                            <input type="text" autocomplete="off" class="form-control" id="fdfinaldate" 
+                                formControlName="fdfinaldate" [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }" bsDatepicker>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal" (click)="content.hide()" mdbWavesEffect>Cancelar</button>
+                    <button type="submit" class="btn btn-primary btn-sm" mdbWavesEffect>Guardar</button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>

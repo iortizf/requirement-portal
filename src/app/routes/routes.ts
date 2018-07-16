@@ -7,7 +7,6 @@ import { ActivityComponent } from "./activity/activity.component";
 import { EstatusComponent } from "./estatus/estatus.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { HomeComponent } from "./home/home.component";
-import { RegisterComponent } from "./pages/register/register.component";
 import { AuthguardService } from '../services/authguard.service';
 import { ApplicantInfComponent } from "./request/applicant-inf/applicant-inf.component";
 import { RequestInfComponent } from "./request/request-inf/request-inf.component";
@@ -54,7 +53,6 @@ export const routes = [
 
     { path: 'home', component: HomeComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent },
     
 
     // Not found
