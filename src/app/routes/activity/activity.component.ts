@@ -33,6 +33,7 @@ export class ActivityComponent implements OnInit {
 
   meetings = new Array<Meeting>();
   meetingSelected: Meeting;
+  submitted:boolean= false;
 
   constructor(
     private fb: FormBuilder,

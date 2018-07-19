@@ -1,172 +1,78 @@
 <!--Panel-->
 <div class="container">
-<div class="card">
-  <div class="card-header text-center dark-text"><h3>
-    FORMATO DE SOLICITUD PARA
-    <br> PUBLICAR DOCUMENTACIÓN DE INGENIERIA DE NEGOCIO</h3>
-  </div>
-  <div class="card-body">
-    <nav class="nav nav-pills nav-justified" style="background-color: #333">
-      <a class="nav-item nav-link" href="javascript:void(0);" [ngClass]="{'active': proyectInfo}" (click)="proyectInfo = true">INFORMACIÓN DEL PROYECTO</a>
-      <a class="nav-item nav-link" href="javascript:void(0);" [ngClass]="{'active': !proyectInfo,'disabled':proyectInfo}" (click)="proyectInfo = false">INFORMACIÓN DEL SOLICITANTE</a>
-    </nav>
-    <section>
-      <div id="proyectInfoSection" *ngIf="proyectInfo">
-        <div class="form-row">
-          <div class="form-group col">
-            <label for="name">Folio</label>
-            <input id="name" class="form-control" [value]="publish.firequestid" readonly>
-          </div>
-          <div class="form-group col">
-            <label for="proyectName">Nombre del proyecto</label>
-            <input id="proyectName" class="form-control" [value]="publish.fcproyectname" readonly>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col">
-            <label for="product">Producto</label>
-            <input id="product" class="form-control" [value]="productStrn" readonly>
-          </div>
-          <div class="form-group col">
-            <label for="category">Categoría</label>
-            <input id="category" class="form-control" [value]="publish.fccategory" readonly>
-          </div>
-          <div class="form-group col">
-            <label for="company">Empresa</label>
-            <input id="company" class="form-control" [value]="publish.fccompany" readonly>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col">
-            <label for="director">Director de sistemas</label>
-            <input id="director" class="form-control" [value]="publish.fcsystemcharge" readonly>
-          </div>
-          <div class="form-group col">
-            <label for="productowner">Dueño de producto</label>
-            <input id="productowner" class="form-control" [value]="publish.fcproductowner" readonly>
-          </div>
-          <div class="form-group col">
-            <label for="business">Dueño de negocio</label>
-            <input id="business" class="form-control" [value]="publish.fcbusinessowner" readonly>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group col">
-            <label for="productDesc">Descripción del producto</label>
-            <textarea class="form-control" id="productDesc" rows="5" readonly></textarea>
-          </div>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-header">
+      <table class="table table-sm">
+        <tbody>
+          <tr>
+            <th class="font-weight-bold">Folio</th>
+            <td>{{publish.firequestid}}</td>
+            <td class="font-weight-bold">Nombre del proyecto</td>
+            <td>{{publish.fcproyectname}}</td>
+            <td class="font-weight-bold">Producto</td>
+            <td>{{productStrn}}</td>
+          </tr>
+          <tr>
+            <th class="font-weight-bold">Categoría</th>
+            <td>{{publish.fccategory}}</td>
+            <td class="font-weight-bold">Empresa</td>
+            <td>{{publish.fccompany}}</td>
+            <td class="font-weight-bold">Director de sistemas</td>
+            <td>{{publish.fcsystemcharge}}</td>
+          </tr>
+          <tr>
+            <th class="font-weight-bold">Dueño de producto</th>
+            <td>{{publish.fcproductowner}}</td>
+            <td class="font-weight-bold">Dueño de negocio</td>
+            <td>{{publish.fcbusinessowner}}</td>
+            <td class="font-weight-bold">Descripción del producto</td>
+            <td>Temp description</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-body">
+      <div class="row" [ngClass]="{'mt-4': !first}" *ngFor="let row of documents;let first=first;">
+        <div class="col-sm-4" *ngFor="let document of row">
+          <div class="card">
+            <div class="card-header">
+              <h5 class="float-left">{{document.fcdocumentname}}</h5>
+              <a href="javascript:void(0);" (click)="uploadFile(document)" *ngIf="currentUser.firoleid!==3" title="Subir archivo" [ngClass]="{'disabled':!document.fileName || document.uploader?.isUploading}" class="badge badge-info float-right ml-2">
+                <em class="fa fa-upload fa-fw"></em>
+              </a>
+              <a [href]="document.fcdocumentpath" *ngIf="document.fcdocumentpath!=null" target="_blank" title="Descargar archivo" class="badge badge-info float-right">
+                  <em class="fa fa-download fa-fw"></em>
+                </a>
+            </div>
+            <div class="card-body">
+              <!--  -->
+              <div ng2FileDrop *ngIf="currentUser.firoleid!==3" [ngClass]="{'border-success': document.onDropZone}" (fileOver)="document.onDropZone = $event" 
+                (onFileDrop)= "fileSelected($event,document)" [uploader]="document.uploader"
+                class="box-placeholder text-center file-upload">
+                <small>{{document.fileName?document.fileName:'Selecciona o arrastra el archivo aquí'}}</small>
+                <input id="file2" type="file" ng2FileSelect [uploader]="document.uploader" (onFileSelected)="fileSelected($event,document)" />
+              </div>
 
-      <div id="personalInfoSection" *ngIf="!proyectInfo">
-        <form [formGroup]="publishDocForm">
-          <div class="form-row">
-            <div class="form-group col">
-              <label for="ing">Ingeniero de negocio</label>
-              <select id="ing" class="form-control" formControlName="engineer" [ngClass]="{ 'is-invalid': submitted && f.engineer.errors }">
-                <option [value]="ingineer.fiuserid" *ngFor="let ingineer of ingineers">{{ ingineer.fcname +' '+ingineer.fclastname1+' '+ingineer.fclastname2}}</option>
-              </select>
+              <p class="card-text">{{document.comentarios?document.comentarios?.length:0}} Comentarios</p>
+              <div class="media border-bottom p-2" *ngFor="let comment of document.comentarios">
+                <img class="mr-2 rounded-circle thumb32" src="assets/img/user/no_user.png" alt="Image" width="50" height="50" />
+                <div class="media-body">
+                  <div class="clearfix">
+                    <strong class="text-capitalize pull-left">{{comment.split('|')[1]}}</strong>
+                    <span class="align-middle pull-right">
+                      <small class="text-muted">{{comment.split('|')[0] | date:'short'}}</small>
+                    </span>
+                  </div>
+                  <div class="text-sm text-muted">{{comment.split('|')[2]}}</div>
+                </div>
+              </div>
             </div>
-            <div class="form-group col">
-              <label for="start">Fecha Inicio</label>
-              <input type="text" id="start" class="form-control" autocomplete="off" bsDatepicker>
+            <div class="card-footer text-muted">
+              <input type="text" #comment class="form-control"
+               placeholder="Agrega un comentario" (keyup.enter)="addComment(comment.value,document);comment.value=''">
             </div>
-            <div class="form-group col">
-              <label for="start">Fecha Fin</label>
-              <input type="text" id="start" class="form-control" autocomplete="off" bsDatepicker>
-            </div>
-          </div>
-          <div class="form-row">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th width="50%">Name</th>
-                  <th>Tamaño</th>
-                  <th>Tipo documento</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <strong>documentacion1.doc</strong>
-                  </td>
-                  <td>10 MB</td>
-                  <td>
-                    <select class="form-control form-control-sm">
-                      <option value="1">Documentación</option>
-                      <option value="2">Funcionalidad</option>
-                      <option value="3">Certificación</option>
-                      <option value="4">Observaciones</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button type="button" style="margin-top:0;" class="btn btn-primary btn-sm">
-                      <span class="fa icon-cloud-upload mr"></span>Elegir archivo
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <strong>funcionalidad_captacion.doc</strong>
-                  </td>
-                  <td>10 MB</td>
-                  <td>
-                    <select class="form-control form-control-sm">
-                      <option value="1">Documentación</option>
-                      <option value="2" selected>Funcionalidad</option>
-                      <option value="3">Certificación</option>
-                      <option value="4">Observaciones</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button type="button" style="margin-top:0;" class="btn btn-primary btn-sm">
-                      <span class="fa icon-cloud-upload mr"></span>Elegir archivo
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </form>
-      </div>
-    </section>
-  </div>
-  <div class="card-footer">
-    <button type="button" class="btn btn-primary btn-sm" [disabled]="proyectInfo" (click)="proyectInfo = true">Anterior</button>
-    <button type="button" class="btn btn-primary btn-sm pull-right" (click)="next();">{{proyectInfo?'Siguiente':'Terminar'}}</button>
-  </div>
-</div>
-
-<div mdbModal #modal="mdb-modal" class="modal fade" id="modalinfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-notify modal-info" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <p class="heading lead">Envío de correos</p>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="modal.hide()">
-          <span aria-hidden="true" class="white-text">×</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="text-center">
-          <h3>¿Esta seguro que desea terminar?</h3>
-          <br>
-          <span>Se enviará una notificación a :
-            <b>nherndaze@elektra.com.mx</b>
-          </span>
-          <br>
-          <div>
-              <br>
-              <input type="mail" class="form-control">
           </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary btn-sm" data-dismiss="modal" (click)="modal.hide()" mdbWavesEffect>Cerrar</button>
-        <button type="button" class="btn btn-primary btn-sm waves-light" mdbWavesEffect (click)="send()">Enviar</button>
       </div>
     </div>
   </div>
-</div>
-</div>

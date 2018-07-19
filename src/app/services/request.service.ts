@@ -2,16 +2,11 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormGroup } from '@angular/forms';
 import { NewRequest } from '../shared/request.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
-import { catchError, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
-import { backEndUrl, CustomError } from '../shared/constants';
-
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { backEndUrl, CustomError, contentTypeJson } from '../shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +30,7 @@ export class RequestService {
   newRequest(newReq: NewRequest) : Observable<boolean>{
     console.log("Newn Request Data", newReq);
     console.log("Invocando servicio de login url=" + this.loginUrl+"postNewRequest");
-    return this.http.post<boolean>(this.loginUrl + "postNewRequest", newReq, httpOptions)
+    return this.http.post<boolean>(this.loginUrl + "postNewRequest", newReq, contentTypeJson)
       .pipe(
         map((resp: Response) => {
           console.log(resp);

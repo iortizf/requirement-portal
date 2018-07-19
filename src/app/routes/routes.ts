@@ -7,14 +7,14 @@ import { ActivityComponent } from "./activity/activity.component";
 import { EstatusComponent } from "./estatus/estatus.component";
 import { LoginComponent } from "./pages/login/login.component";
 import { HomeComponent } from "./home/home.component";
-import { AuthguardService } from '../services/authguard.service';
+import { AuthguardService } from '../services/guards/authguard.service';
 import { ApplicantInfComponent } from "./request/applicant-inf/applicant-inf.component";
 import { RequestInfComponent } from "./request/request-inf/request-inf.component";
 import { RequestDescComponent } from "./request/request-desc/request-desc.component";
 import { ProyectDescComponent } from "./request/proyect-desc/proyect-desc.component";
 import { PublishDocumentComponent } from "./publish/publish-document/publish-document.component";
 import { PublishHomeComponent } from "./publish/publish-home/publish-home.component";
-import { RoleService } from "../services/role.service";
+import { RoleguardService } from "../services/guards/roleguard.service";
 
 export const routes = [
 
@@ -23,7 +23,7 @@ export const routes = [
         component: LayoutComponent, canActivate: [AuthguardService],
         children: [
             { path: '', redirectTo: 'tracing', pathMatch: 'full' },
-            { path: 'tracing', component: TracingComponent, canActivate:[RoleService] },
+            { path: 'tracing', component: TracingComponent, canActivate:[RoleguardService] },
             {
                 path: 'request', component: RequestComponent,
                 children: [
@@ -43,9 +43,9 @@ export const routes = [
                 ]
         
             },
-            { path: 'assignment', component: AssignmentComponent, canActivate:[RoleService]},
+            { path: 'assignment', component: AssignmentComponent, canActivate:[RoleguardService]},
             { path: 'activity', component: ActivityComponent },
-            { path: 'estatus', component: EstatusComponent, canActivate:[RoleService]},
+            { path: 'estatus', component: EstatusComponent, canActivate:[RoleguardService]},
             { path: 'publish-document', component: EstatusComponent }
         ]            
 

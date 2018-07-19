@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem("currentUser"))
+    this.user = JSON.parse(sessionStorage.getItem("currentUser"))
     this.menus.forEach(menu => {
       if ((this.user.firoleid == 2 || this.user.firoleid == 3)
         && (menu.link == 'tracing' || menu.link == 'assignment' || menu.link == 'estatus')){

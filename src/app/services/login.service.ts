@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs'
-import { catchError, map, tap } from 'rxjs/operators';
-import { User } from '../shared/user.model';
+import { map } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { backEndUrl } from '../shared/constants';
 
@@ -27,7 +26,7 @@ export class LoginService {
         map((resp:Response) =>{
      //     console.log(resp);
           if(resp.statusCode == 200){//Good login
-            localStorage.setItem('currentUser', JSON.stringify(resp.body[0]));
+            sessionStorage.setItem('currentUser', JSON.stringify(resp.body[0]));
           }else{
             throw new Error("Usuario o contraseña incorrectos");
           }          
@@ -36,7 +35,7 @@ export class LoginService {
   } 
 
   logout() {
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
   }
 
 

@@ -11,6 +11,7 @@ import { CalendarModule } from 'angular-calendar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FileUploadModule } from 'ng2-file-upload';
 
 
 import { AppComponent } from './app.component';
@@ -73,7 +74,8 @@ registerLocaleData(localeFr);
     ModalModule.forRoot(),
     DropdownModule.forRoot(),
     NavbarModule,
-    CalendarModule.forRoot()
+    CalendarModule.forRoot(),
+    FileUploadModule
   ],
   providers: [ { provide: LOCALE_ID, useValue: 'es-MX' } ],
   bootstrap: [AppComponent],

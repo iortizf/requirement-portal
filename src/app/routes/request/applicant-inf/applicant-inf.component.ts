@@ -24,7 +24,7 @@ export class ApplicantInfComponent implements OnInit, OnDestroy {
         this.requestService.currentForm = this.applicanForm;
       }
     });
-    /*let user = JSON.parse(localStorage.getItem("currentUser"));
+    /*let user = JSON.parse(sessionStorage.getItem("currentUser"));
     
     this.applicanForm.value.name = user.fcname;
     this.applicanForm.value.apellidos = user.fclastname1 + " "+ user.fclastname2;
@@ -40,7 +40,7 @@ export class ApplicantInfComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    let user = JSON.parse(localStorage.getItem("currentUser"));
+    let user = JSON.parse(sessionStorage.getItem("currentUser"));
     this.applicanForm.setValue({
         noEmploy:user.fiuserid,
         name : user.fcname,

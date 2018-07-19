@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable} from 'rxjs'
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
-import { backEndUrl, CustomError } from '../shared/constants';
+import { backEndUrl, CustomError, contentTypeJson } from '../shared/constants';
 import { Tracing } from '../shared/tracing.model';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json'})
-};
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +17,7 @@ export class TracingService {
 
   getDataOfTracing(): Observable<Tracing[]> {    
     return this.http
-    .get<Tracing[]>(this.publishUrl+"getStatusRequestByBussinesEngineer", httpOptions)
+    .get<Tracing[]>(this.publishUrl+"getStatusRequestByBussinesEngineer", contentTypeJson)
     .pipe(
       map((resp:Response) => {
         console.log("Response", resp);

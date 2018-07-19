@@ -91,7 +91,7 @@ export class RequestComponent implements OnInit {
     let requestDesc = this.tabs[2].form.value;// Request Description Page
     let proyectDesc = this.tabs[3].form.value;// Proyect Description Page
 
-    let user = JSON.parse(localStorage.getItem("currentUser"));
+    let user = JSON.parse(sessionStorage.getItem("currentUser"));
 
     let newReq = new NewRequest();
 

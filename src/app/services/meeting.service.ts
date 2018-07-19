@@ -1,16 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Response } from '../shared/response.model';
-import { catchError, map, tap } from 'rxjs/operators';
 import { Meeting } from '../shared/meeting.model';
-import { backEndUrl, CustomError } from '../shared/constants';
+import { backEndUrl, CustomError, contentTypeJson } from '../shared/constants';
 import { Request } from '../shared/request.model';
 import { colors } from '../routes/activity/colors';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +24,7 @@ export class MeetingService {
     console.log("Invocando servicio de createMeeting=" + this.addMeetingUrl);
     let body = JSON.stringify(meeting);
     return this.http
-      .post<void>(this.addMeetingUrl, body, httpOptions)
+      .post<void>(this.addMeetingUrl, body, contentTypeJson)
       .pipe(
         tap((resp: Response) => {
           console.log(resp);
@@ -43,7 +39,7 @@ export class MeetingService {
     console.log("Invocando servicio de updateMeeting=" + this.updateMeetingUrl);
     let body = JSON.stringify(meeting);
     return this.http
-      .post<void>(this.updateMeetingUrl, body, httpOptions)
+      .post<void>(this.updateMeetingUrl, body, contentTypeJson)
       .pipe(
         tap((resp: Response) => {
           console.log(resp);
@@ -57,7 +53,7 @@ export class MeetingService {
   loadRequest(): Observable<Request[]> {
     console.log("Invocando servicio de loadRequest=" + this.getRequestUrl);
     return this.http
-      .get<Request[]>(this.getRequestUrl, httpOptions)
+      .get<Request[]>(this.getRequestUrl, contentTypeJson)
       .pipe(
         map((resp: Response) => {
           console.log("Estatus = " + resp.statusCode);
@@ -72,7 +68,7 @@ export class MeetingService {
   getMeetings(){
     console.log("Invocando servicio de getMeetings=" + this.getMeetingsUrl);
     return this.http
-      .get(this.getMeetingsUrl, httpOptions)
+      .get(this.getMeetingsUrl, contentTypeJson)
       .pipe(
         map((resp: Response) => {
           console.log(resp);

@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
-import { catchError, map, tap } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { Assignment } from '../shared/assignment.model';
 import { User } from '../shared/user.model';
-import { backEndUrl, CustomError } from '../shared/constants';
+import { backEndUrl, CustomError, contentTypeJson } from '../shared/constants';
+import { map } from 'rxjs/operators';
 
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +18,7 @@ export class AssignmentService {
   getAssignment(): Observable<Assignment[]> {
     console.log("Invocando servicio de getRequest url=" + backEndUrl + "getRequest");
     return this.http
-      .get<Assignment[]>(backEndUrl + "getRequest", httpOptions)
+      .get<Assignment[]>(backEndUrl + "getRequest", contentTypeJson)
       .pipe(
         map((resp: Response) => {
           if (resp.statusCode == 200)
@@ -34,7 +31,7 @@ export class AssignmentService {
   getUserByRole(roleId: number): Observable<User[]> {
     console.log("Invocando servicio de getUserByRole url=" + backEndUrl + "getUserByRol?roleId=" + roleId);
     return this.http
-      .get<User[]>(backEndUrl + "getUserByRol?roleId=" + roleId, httpOptions)
+      .get<User[]>(backEndUrl + "getUserByRol?roleId=" + roleId, contentTypeJson)
       .pipe(
         map((resp: Response) => {
           if (resp.statusCode == 200)
@@ -48,7 +45,7 @@ export class AssignmentService {
   updateBeAndCertEngineer(assignment: Assignment): Observable<void> {
     console.log("Invocando servicio de updateBeAndCertEngineer url=" + backEndUrl + "updateBussinessAndCertificatorEngineer");
     return this.http
-      .post<void>(backEndUrl + "updateBussinessAndCertificatorEngineer", assignment, httpOptions)
+      .post<void>(backEndUrl + "updateBussinessAndCertificatorEngineer", assignment, contentTypeJson)
       .pipe(
         map((resp: Response) => {
           console.log("Estatus = "+resp.statusCode);
