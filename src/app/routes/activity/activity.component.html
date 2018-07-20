@@ -11,7 +11,7 @@
 
         <div *ngIf="events$ | async; let events">
             <div [ngSwitch]="view">
-                <mwl-calendar-month-view *ngSwitchCase="'month'" [locale]="'es-MX'" [viewDate]="viewDate" [events]="events" (dayClicked)="show($event.day.date)"
+                <mwl-calendar-month-view *ngSwitchCase="'month'" [refresh]="refresh" [locale]="'es-MX'" [viewDate]="viewDate" [events]="events" (dayClicked)="show($event.day.date,events)"
                     (eventClicked)="handleEvent($event.event)">
                 </mwl-calendar-month-view>                
             </div>

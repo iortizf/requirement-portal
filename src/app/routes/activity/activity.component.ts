@@ -6,9 +6,10 @@ import { Router } from '@angular/router';
 import { Meeting } from '../../shared/meeting.model';
 import { DatePipe } from '@angular/common';
 import { Request } from '../../shared/request.model';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ModalMessageService } from '../../services/modal-message.service';
 import { MODAL_SUCCESS, ModalData, MODAL_ERROR } from '../../shared/constants';
+import { colors } from './colors';
 
 @Component({
   selector: 'app-activity',
@@ -29,16 +30,20 @@ export class ActivityComponent implements OnInit {
 
   requests: Request[];
 
+  actualEvents: any[];
+
   datepipe = new DatePipe('es-MX');
 
   meetings = new Array<Meeting>();
   meetingSelected: Meeting;
-  submitted:boolean= false;
+  submitted: boolean = false;
+
+  refresh: Subject<any> = new Subject();
 
   constructor(
     private fb: FormBuilder,
     private meetingService: MeetingService,
-    private modalMessageService:ModalMessageService,
+    private modalMessageService: ModalMessageService,
     public router: Router
   ) {
     this.newActivityForm = fb.group({
@@ -55,20 +60,21 @@ export class ActivityComponent implements OnInit {
 
   dateSelected: Date;
 
-  show(dateSelected: Date) {
+  show(dateSelected: Date, events: any) {
     console.log("Maaaaaaadres", dateSelected);
     this.newActivityForm.reset();
     this.dateSelected = dateSelected;
     this.contentModal.show();
     this.meetingSelected = undefined;
+    this.actualEvents = events;
   }
 
-  showMessage(type:boolean, error:any){
-    if(type)
-          this.modalMessageService.showModalMessage(
-            new ModalData(MODAL_SUCCESS, ["Se agregó la actividad correctamente"], "activity")
-          );
-    else{
+  showMessage(type: boolean, error: any) {
+    if (type)
+      this.modalMessageService.showModalMessage(
+        new ModalData(MODAL_SUCCESS, ["Se agregó la actividad correctamente"], "activity")
+      );
+    else {
       console.error(error)
       if (error.errors)
         this.modalMessageService.showModalMessage(
@@ -93,6 +99,8 @@ export class ActivityComponent implements OnInit {
         res => {
           this.contentModal.hide();
           this.showMessage(true, null);
+          this.events$ = this.meetingService.getMeetings();
+          this.refresh.next();
         },
         error => {
           this.showMessage(false, error);
@@ -104,6 +112,14 @@ export class ActivityComponent implements OnInit {
         res => {
           this.contentModal.hide();
           this.showMessage(true, null);
+          // this.actualEvents.push({
+          //   title: meeting.fccomments,
+          //   color: colors.yellow,
+          //   start: new Date(meeting.fdscheduledate),
+          //   id: meeting.fibinnaclemeetingid,
+          // });
+          this.events$ = this.meetingService.getMeetings();
+          this.refresh.next();
         },
         err => {
           console.log("Error en login");
