@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { Response } from '../shared/response.model';
 import { FileUploader } from 'ng2-file-upload';
 
-const URI = "http://10.51.145.32:8080/request/uploadFile";
+const URI =  backEndUrl+"uploadFile";
 
 @Injectable({
   providedIn: 'root'
